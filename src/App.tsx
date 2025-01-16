@@ -1,14 +1,15 @@
 import Logo from "./components/Logo";
+import AccountCreation from "./components/AccountCreation";
 const App = () => {
   return(
     <>
       <section className="flex flex-col h-screen">
-        <section className="flex grow">
-          <section className="flex-1">
+        <section className="flex flex-col items-center grow lg:flex-row lg:items-start">
+          <section className="lg:flex-1 pt-5 lg:h-full lg:justify-items-center lg:content-center lg:p-0">
             <Logo />
           </section>
-          <section className="flex-1">
-
+          <section className="lg:flex-1 lg:h-full lg:content-center">
+            <AccountCreation />
           </section>
         </section>
         <section className="">
