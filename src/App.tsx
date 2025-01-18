@@ -1,19 +1,20 @@
 import Logo from "./components/Logo";
-import AccountCreation from "./components/AccountCreation";
+import Account from "./components/account/Account";
+import Footer from "./components/Footer";
 const App = () => {
   return(
     <>
-      <section className="flex flex-col h-screen">
+      <section className="flex flex-col h-screen p-5 lg:p-0">
         <section className="flex flex-col items-center grow lg:flex-row lg:items-start">
           <section className="lg:flex-1 pt-5 lg:h-full lg:justify-items-center lg:content-center lg:p-0">
             <Logo />
           </section>
-          <section className="lg:flex-1 lg:h-full lg:content-center">
-            <AccountCreation />
+          <section className="flex flex-col justify-center items-center lg:flex-1 lg:h-full lg:content-center">
+            <Account />
           </section>
         </section>
-        <section className="">
-          <p className="text-white">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sapiente inventore excepturi fugiat facilis ducimus quod repellat error, voluptates atque laudantium iste doloremque provident tempora pariatur sunt dicta velit dolor deleniti.</p>
+        <section>
+          <Footer />
         </section>
       </section>
     </>
