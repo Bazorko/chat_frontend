@@ -1,6 +1,7 @@
 import Logo from "./components/Logo";
 import Account from "./components/account/Account";
 import Footer from "./components/Footer";
+
 const App = () => {
   return(
     <>
