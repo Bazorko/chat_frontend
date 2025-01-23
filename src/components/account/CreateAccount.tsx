@@ -9,20 +9,20 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
     const [ isMouseDown, setIsMouseDown ] = useState(false);
     return(
         <Modal>
-            <section className="w-full flex flex-col">
+            <section className="w-full max-h-min flex flex-col overflow-auto">
                 <button onClick={closePortal} className="text-white text-2xl self-start hover:text-gray-400">&times;</button>
                 <h3 className="text-white place-self-center text-3xl pt-8">Create Account</h3>
                 <form className="self-center w-full lg:w-8/12" autoComplete="off">
                     <fieldset className="flex flex-col">
                         <fieldset>Personal Information</fieldset>
                         <section className="flex flex-col lg:flex-row gap-0 lg:gap-5">
-                            <section className="flex flex-col">
+                            <section className="flex flex-col w-full">
                                 <label htmlFor="username" className="text-white text-lg p-2">Username</label>
                                 <input type="text" id="username" className="p-3 rounded-lg w-full" placeholder="Enter your username" required/>
                             </section>
-                            <section className="flex flex-col">
+                            <section className="flex flex-col w-full">
                                 <label htmlFor="email" className="text-white text-lg p-2">Email</label>
-                                <input type="text" id="email" className="p-3 rounded-lg w-full" placeholder="Enter your username" required/>
+                                <input type="text" id="email" className="p-3 rounded-lg w-full" placeholder="Enter your email address" required/>
                             </section>
                         </section>
 

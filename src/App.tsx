@@ -22,7 +22,7 @@ const App = () => {
   const displayAccountCard = (card: string) => setAccountCard(card); 
   return(
     <>
-      <section className="flex flex-col h-screen p-5 lg:p-0">
+      <section className={`flex flex-col h-screen p-5 lg:p-0 ${isPortalOpen ? "overflow-hidden" : null}`}>
         <section className="flex flex-col items-center grow lg:flex-row lg:items-start">
           <section className="lg:flex-1 lg:h-full lg:justify-items-center lg:content-center lg:p-0">
             <Logo />
