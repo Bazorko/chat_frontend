@@ -7,7 +7,7 @@ interface LoginComponentInterface{
 const SignIn = ({ closePortal }: LoginComponentInterface) => {
     return(
         <Modal>
-            <section className="w-full flex flex-col overflow-auto">
+            <section className="w-full max-h-min flex flex-col overflow-auto">
                 <button onClick={closePortal} className="text-white text-2xl self-start hover:text-gray-400">&times;</button>
                 <h3 className="text-white place-self-center text-3xl pt-8">Sign In</h3>
                 <form className="self-center w-full lg:w-7/12" autoComplete="off">
