@@ -24,14 +24,14 @@ const App = () => {
     <>
       <section className="flex flex-col h-screen p-5 lg:p-0">
         <section className="flex flex-col items-center grow lg:flex-row lg:items-start">
-          <section className="lg:flex-1 pt-5 lg:h-full lg:justify-items-center lg:content-center lg:p-0">
+          <section className="lg:flex-1 lg:h-full lg:justify-items-center lg:content-center lg:p-0">
             <Logo />
           </section>
           <section className="flex flex-col justify-center items-center lg:flex-1 lg:h-full lg:content-center">
             <Account openPortal={openPortal} accountCard={accountCard} displayAccountCard={displayAccountCard}/>
           </section>
         </section>
-        <section>
+        <section className="p-5 lg:p-10">
           <Footer />
         </section>
       </section>
@@ -39,7 +39,7 @@ const App = () => {
         <Portal closePortal={closePortal}>
           {
             accountCard === "create" ? 
-              (<CreateAccount />) : 
+              (<CreateAccount closePortal={closePortal}/>) : 
             accountCard === "login" ? 
               (<SignIn closePortal={closePortal}/>) : 
             null
