@@ -21,7 +21,7 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
                     </fieldset>
                     <section>
                         <p className="text-white text-center py-3"><span className="cursor-pointer hover:underline">Forgot Password?</span></p>
-                        <button className="text-neutral-600 text-lg bg-neutral-300 border-2 border-neutral-300 rounded-lg w-full py-2 hover:text-neutral-900 hover:bg-neutral-600 hover:border-neutral-600 hover:scale-95">Log In</button>
+                        <button className="text-neutral-600 text-lg bg-neutral-300 border-2 border-neutral-300 rounded-lg w-full py-2 hover:text-neutral-900 hover:bg-neutral-600 hover:border-neutral-600 hover:scale-95">Sign In</button>
                     </section>
                 </form>
             </section>
