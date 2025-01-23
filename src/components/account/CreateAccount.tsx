@@ -1,8 +1,10 @@
+import Modal from "../Modal";
+
 const CreateAccount = () => {
     return(
-        <>
-            <p>Create account</p>
-        </>
+        <Modal>
+            <p>uwu uwu</p>
+        </Modal>
     );
 }
 export default CreateAccount;

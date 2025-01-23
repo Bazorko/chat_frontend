@@ -2,7 +2,7 @@ import { useState } from "react";
 import Logo from "./components/Logo";
 import Account from "./components/account/Account";
 import CreateAccount from "./components/account/CreateAccount";
-import Login from "./components/account/LogIn";
+import SignIn from "./components/account/SignIn";
 import Footer from "./components/Footer";
 import Portal from "./components/Portal";
 
@@ -37,7 +37,13 @@ const App = () => {
       </section>
       {isPortalOpen &&
         <Portal closePortal={closePortal}>
-          {accountCard === "create" ? (<CreateAccount />) : accountCard === "login" ? (<Login />) : null}
+          {
+            accountCard === "create" ? 
+              (<CreateAccount />) : 
+            accountCard === "login" ? 
+              (<SignIn closePortal={closePortal}/>) : 
+            null
+          }
         </Portal>
       }
     </>

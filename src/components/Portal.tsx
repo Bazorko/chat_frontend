@@ -8,8 +8,7 @@ interface PortalComponentProps {
 const Portal = ({ children, closePortal }: PortalComponentProps) => {
     const portal = document.getElementById("portal")!;
     return ReactDOM.createPortal(
-        <section onClick={closePortal} className="absolute top-0 -left-0 w-screen h-screen opacity-80 bg-neutral-500">
-            <button onClick={closePortal} className="text-white absolute top-0 -left-0">&times;</button>
+        <section onClick={() => closePortal()} className="absolute top-0 -left-0 w-screen h-screen flex justify-center items-center bg-opacity-80 bg-neutral-500">
             { children }
         </section>, 
         portal
