@@ -12,4 +12,4 @@ describe("Logo.tsx", () => {
         const { logo } = renderComponent();
         expect(logo).toBeInTheDocument();
     })
-})
+});

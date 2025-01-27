@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 
 interface PortalComponentProps {
-    children: JSX.Element | null;
+    children?: JSX.Element | null;
     closePortal: () => void;
 }
 
