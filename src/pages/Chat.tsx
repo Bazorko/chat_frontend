@@ -4,11 +4,11 @@ const Chat = () => {
     const messages = [
         {
             self: true,
-            message: "lorem ipsum"
+            message: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
         },
         {
             self: false,
-            message: "lorem ipsum to you to."
+            message: "lorem ipsum to you to. lorem ipsum to you to. lorem ipsum to you to."
         },
     ];
     return (
@@ -17,18 +17,18 @@ const Chat = () => {
                 <Logo />
             </section>
             {/*Chat Window*/}
-            <section className="p-8 grow overflow-auto">
+            <section className="p-8 grow overflow-auto flex flex-col">
                 {messages.map((message) => {
                     return(
-                        <p className={`text-white ${message.self ? "text-right" : "text-left"}`}><span className={`${message.self ? "bg-primary_blue" : "bg-neutral-600"}`}>{message.message}</span></p>
+                        <section className={`text-white mb-5 w-fit max-w-3/4 rounded-lg p-2 ${message.self ? " bg-primary_blue self-end" : "bg-neutral-600"}`}><p className="w-full">{message.message}</p></section>
                     );
                 })}
             </section>
             {/*Chat Box*/}
             <section className="p-8">
-                <form>
-                    <input type="text" className="border-white" placeholder="Enter your message"/>
-                    <button className="text-white">Send</button>
+                <form className="flex gap-2">
+                    <input type="text" className="border-white grow p-2 rounded-lg" placeholder="Enter your message"/>
+                    <button className="text-white w-1/4 p-2 bg-primary_blue border-primary_blue hover:bg-primary_blue_darker hover:border-primary_blue_darker rounded-lg">Send</button>
                 </form>
             </section>
         </section>

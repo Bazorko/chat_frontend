@@ -13,6 +13,9 @@ export default {
         "primary_blue": "#1A64ED",
         "primary_blue_darker": "#1958CF"
       },
+      maxWidth: {
+        "3/4": "75%",
+      }
     }
   },
   plugins: [],
