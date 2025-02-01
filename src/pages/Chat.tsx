@@ -1,4 +1,4 @@
-import Logo from "../components/Logo";
+import Nav from  "../components/Nav.tsx";
 
 const Chat = () => {
     const messages = [
@@ -13,9 +13,7 @@ const Chat = () => {
     ];
     return (
         <section className="flex flex-col h-screen">
-            <section className="">
-                <Logo />
-            </section>
+            <Nav />
             {/*Chat Window*/}
             <section className="p-8 grow overflow-auto flex flex-col">
                 {messages.map((message) => {

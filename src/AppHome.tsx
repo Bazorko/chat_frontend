@@ -25,7 +25,7 @@ const App = () => {
       <section className={`flex flex-col h-screen p-5 lg:p-0 ${isPortalOpen ? "overflow-hidden" : null}`}>
         <section className="flex flex-col items-center grow lg:flex-row lg:items-start">
           <section className="lg:flex-1 lg:h-full lg:justify-items-center lg:content-center lg:p-0">
-            <Logo />
+            <Logo height={"h-24"}/>
           </section>
           <section className="flex flex-col justify-center items-center lg:flex-1 lg:h-full lg:content-center">
             <Account openPortal={openPortal} accountCard={accountCard} displayAccountCard={displayAccountCard}/>
