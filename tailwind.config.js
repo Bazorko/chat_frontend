@@ -15,6 +15,20 @@ export default {
       },
       maxWidth: {
         "3/4": "75%",
+      },
+      animation: {
+        fadeInLeftToRight: "fadeInFromLeft 400ms linear forwards",
+        fadeInRightToLeft: "fadeInFromRight 400ms ease-out forwards"
+      },
+      keyframes: {
+        fadeInFromLeft: {
+          "0%": { width: "0%" },
+          "100%": { width: "100%" },
+        },
+        fadeInFromRight: {
+          "0%": { width: "0", right: "0" },
+          "100%": { width: "100%", right: "0" },
+        }
       }
     }
   },
