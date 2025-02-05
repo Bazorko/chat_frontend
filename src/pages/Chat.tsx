@@ -1,6 +1,16 @@
+import { useState, FormEvent } from "react";
 import Nav from  "../components/Nav.tsx";
 
 const Chat = () => {
+
+    const [ message, setMessage ] = useState("");
+
+    const handleSubmit = (event: FormEvent) => {
+        event.preventDefault();
+        //Validation
+        //API Call
+    }
+
     const messages = [
         {
             self: true,
@@ -25,8 +35,8 @@ const Chat = () => {
             </section>
             {/*Chat Box*/}
             <section className="p-8">
-                <form className="flex gap-2">
-                    <input type="text" className="border-white grow p-2 rounded-lg" placeholder="Enter your message"/>
+                <form className="flex gap-2" onSubmit={handleSubmit} autoComplete="off">
+                    <input type="text" value={message} onChange={(event) => setMessage(event.target.value)} className="border-white grow p-2 rounded-lg" placeholder="Enter your message"/>
                     <button className="text-white w-1/4 p-2 bg-primary_blue border-primary_blue hover:bg-primary_blue_darker hover:border-primary_blue_darker rounded-lg">Send</button>
                 </form>
             </section>

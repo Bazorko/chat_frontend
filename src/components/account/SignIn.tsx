@@ -1,3 +1,4 @@
+import { useState, FormEvent } from "react";
 import Modal from "../utils/Modal";
 
 interface LoginComponentInterface{
@@ -5,19 +6,29 @@ interface LoginComponentInterface{
 }
 
 const SignIn = ({ closePortal }: LoginComponentInterface) => {
+
+    const [ username, setUsername ] = useState("");
+    const [ password, setPassword ] = useState("");
+
+    const handleSubmit = (event: FormEvent) => {
+        event.preventDefault();
+        //Validation
+        //API Call
+    }
+
     return(
         <Modal>
             <section className="w-full max-h-min flex flex-col overflow-auto">
                 <button onClick={closePortal} className="text-white text-2xl self-start hover:text-gray-400">&times;</button>
                 <h3 className="text-white place-self-center text-3xl pt-8">Sign In</h3>
-                <form className="self-center w-full lg:w-7/12" autoComplete="off">
+                <form className="self-center w-full lg:w-7/12" onSubmit={handleSubmit} autoComplete="off">
                     <fieldset className="flex flex-col">
                         <fieldset>Personal Information</fieldset>
                         <label htmlFor="username" className="text-white text-lg p-2">Username</label>
-                        <input type="text" id="username" className="p-3 rounded-lg" placeholder="Enter your username." required/>
+                        <input type="text" value={username} onChange={(event) => setUsername(event.target.value)} id="username" className="p-3 rounded-lg" placeholder="Enter your username." required/>
 
                         <label htmlFor="password" className="text-white text-lg p-2 ">Password</label>
-                        <input type="password" id="password" className="p-3 rounded-lg" placeholder="Enter your password." required/>
+                        <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} id="password" className="p-3 rounded-lg" placeholder="Enter your password." required/>
                     </fieldset>
                     <section>
                         <p className="text-white text-center py-3"><span className="cursor-pointer hover:underline">Forgot Password?</span></p>
