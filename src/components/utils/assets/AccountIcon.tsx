@@ -1,4 +1,4 @@
-import Account from "../assets/account_circle_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg";
+import Account from "../../../assets/account_circle_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg";
 
 interface AccountImagePlaceholderIconProps{
     height: string

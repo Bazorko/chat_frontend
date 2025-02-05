@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import App from "../src/Home";
+import App from "../src/pages/Home";
 
 describe("App.tsx", () => {
     const renderComponent = () => {

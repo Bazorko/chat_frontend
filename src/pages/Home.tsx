@@ -1,10 +1,10 @@
 import { useState } from "react";
-import Logo from "./components/Logo";
-import Account from "./components/account/Account";
-import CreateAccount from "./components/account/CreateAccount";
-import SignIn from "./components/account/SignIn";
-import Footer from "./components/Footer";
-import Portal from "./components/Portal";
+import Logo from "../components/utils/assets/Logo";
+import Account from "../components/account/Account";
+import CreateAccount from "../components/account/CreateAccount";
+import SignIn from "../components/account/SignIn";
+import Footer from "../components/Footer";
+import Portal from "../components/utils/Portal";
 
 const App = () => {
   const [ isPortalOpen, setIsPortalOpen ] = useState(false);

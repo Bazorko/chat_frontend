@@ -1,6 +1,6 @@
 import { screen, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Portal from "../../../src/components/Portal";
+import Portal from "../../../src/components/utils/Portal";
 import CreateAccount from "../../../src/components/account/CreateAccount";
 
 interface RenderProps {

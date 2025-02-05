@@ -1,4 +1,4 @@
-import Modal from "../Modal";
+import Modal from "../utils/Modal";
 
 interface LoginComponentInterface{
     closePortal: () => void;
