@@ -6,25 +6,25 @@ import AccountImagePlaceholderIcon from "./utils/assets/AccountIcon";
 const Nav = () => {
     const [ isModalContainerOpen, setIsModalContainerOpen ] = useState(false);
     const [ menuOrAccount, setMenuOrAccount ] = useState("");
-    const modalContainer = (bool: boolean) => setIsModalContainerOpen(bool)
+    const modalContainer = (bool: boolean) => setIsModalContainerOpen(bool);
 
     if(isModalContainerOpen) return <ModalContainer modalContainer={modalContainer} menuOrAccount={menuOrAccount}/>
 
     return (
-        <section className="flex justify-between w-full">
-            <span onClick={() => {
+        <nav className="flex justify-between lg:place-content-end w-full p-3">
+            <span className="lg:hidden" onClick={() => {
                 modalContainer(true);
                 setMenuOrAccount("menu");
             }}>
                 <MenuIcon height={"h-20"}/>
             </span>
-            <span onClick={() => {
+            <span className="" onClick={() => {
                 modalContainer(true);
                 setMenuOrAccount("account");
             }}>
-                <AccountImagePlaceholderIcon height={"h-20"}/>
+                <AccountImagePlaceholderIcon height={"h-20 lg:h-12"}/>
             </span>
-        </section>
+        </nav>
     )
 }
 
