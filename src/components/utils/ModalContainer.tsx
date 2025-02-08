@@ -8,7 +8,7 @@ interface ModalContainerProps{
 
 const ModalContainer = ({ modalContainer, menuOrAccount }: ModalContainerProps) => {
     return (
-        <aside className={`${menuOrAccount === "menu" && "animate-fadeInLeftToRight"} ${menuOrAccount === "account" && "animate-fadeInRightToLeft"} absolute h-screen w-screen bg-black flex flex-col p-5`}>
+        <aside className={`${menuOrAccount === "menu" && "animate-fadeInLeftToRight"} ${menuOrAccount === "account" && "animate-fadeInRightToLeft"} absolute h-screen w-screen bg-dark_theme flex flex-col p-5`}>
             <section>
                 <button className="text-white text-4xl" onClick={() => modalContainer(false)}>&times;</button>
             </section>

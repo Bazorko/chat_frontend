@@ -19,7 +19,7 @@ const MessageList = () => {
     return (
         <section className="self-center">
             <p className="text-white text-center text-2xl p-5">Inbox</p>
-            <ul className="p-5">
+            <ul className="p-5 text-center">
                 {listOfFriends.map(friend => {
                     return(<li className="text-white text-center text-lg p-3">{friend.username}</li>);
                 })}

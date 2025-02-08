@@ -11,7 +11,8 @@ export default {
       },
       colors: {
         "primary_blue": "#1A64ED",
-        "primary_blue_darker": "#1958CF"
+        "primary_blue_darker": "#1958CF",
+        "dark_theme": "#0A0A0A"
       },
       maxWidth: {
         "3/4": "75%",
@@ -22,8 +23,8 @@ export default {
       },
       keyframes: {
         fadeInFromLeft: {
-          "0%": { width: "0%" },
-          "100%": { width: "100%" },
+          "0%": { width: "0%", left: "0" },
+          "100%": { width: "100%", left: "0" },
         },
         fadeInFromRight: {
           "0%": { width: "0", right: "0" },
