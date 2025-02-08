@@ -1,8 +1,11 @@
+import { lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import RequireAuth from "./components/utils/ReuireAuth.tsx";
 import Layout from "./components/utils/Layout.tsx";
 import Home from "./pages/Home.tsx";
-import Chat from "./pages/Chat.tsx";
+import LazyLoadedPages from "./pages/LazyLoadedPages.tsx";
+
+const ChatComponent = lazy(() => import("./pages/Chat.tsx"));
 
 const App = () => {
   return (
@@ -12,7 +15,11 @@ const App = () => {
 
         {/* Protected Routes */}
         <Route element={<RequireAuth />}>
-          <Route path="chat" element={<Chat />}/>
+          <Route path="chat" element={
+            <LazyLoadedPages>
+              <ChatComponent/>
+            </LazyLoadedPages>
+          }/>
         </Route>
       </Route>
     </Routes>

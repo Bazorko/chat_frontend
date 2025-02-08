@@ -27,7 +27,7 @@ const Chat = () => {
             <Nav />
             {/*Message List - render when on larger viewports*/}
             <section className="flex flex-row w-full grow">
-                <section className="hidden lg:block">
+                <section className="hidden lg:inline-block">
                     <MessageList />
                 </section>
                 <section className="flex flex-col grow lg:px-20">
