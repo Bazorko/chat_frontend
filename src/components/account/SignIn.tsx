@@ -1,4 +1,7 @@
 import { useState, FormEvent } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../config/firebaseAuth.js";
+import { Navigate } from "react-router-dom";
 import Modal from "../utils/Modal";
 
 interface LoginComponentInterface{
@@ -10,10 +13,19 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
     const [ username, setUsername ] = useState("");
     const [ password, setPassword ] = useState("");
 
-    const handleSubmit = (event: FormEvent) => {
+    const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         //Validation
         //API Call
+        console.log(auth);
+        try{
+            await signInWithEmailAndPassword(auth, username, password);
+            console.log(auth);
+            return <Navigate to="/chat"/>
+
+        }catch(error){
+            alert(error);
+        }
     }
 
     return(
