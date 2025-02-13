@@ -1,6 +1,7 @@
 import { useState, FormEvent } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../config/firebaseAuth.js";
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, firestore } from "../../config/firebaseAuth.js";
 import { Navigate } from "react-router-dom";
 import Modal from "../utils/Modal";
 
@@ -17,13 +18,20 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
         event.preventDefault();
         //Validation
         //API Call
-        console.log(auth);
         try{
-            await signInWithEmailAndPassword(auth, username, password);
-            console.log(auth);
-            return <Navigate to="/chat"/>
+            const signedInUser = await signInWithEmailAndPassword(auth, username, password);
+            const user = signedInUser.user;
 
-        }catch(error){
+            const docRef = doc(firestore, 'users', user.uid);
+            const docSnap = await getDoc(docRef);
+
+            if(docSnap.exists()) {
+
+            } else {
+
+            }
+            return <Navigate to="/chat"/>
+        } catch(error) {
             alert(error);
         }
     }

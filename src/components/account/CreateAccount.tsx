@@ -32,7 +32,6 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
             await setDoc(doc(firestore, "user", user.uid), {
                 username, email
             });
-            alert("USER REGISTERED SUCCESSFULLY.");
             return <Navigate to="/chat"/>
         }catch(error){
             console.log(error);
