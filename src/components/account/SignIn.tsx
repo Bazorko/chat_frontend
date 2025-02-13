@@ -1,7 +1,5 @@
 import { useState, FormEvent } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from 'firebase/firestore';
-import { auth, firestore } from "../../config/firebaseAuth.js";
+import { useAuth } from "../../hooks/useAuth";
 import { Navigate } from "react-router-dom";
 import Modal from "../utils/Modal";
 
@@ -11,29 +9,17 @@ interface LoginComponentInterface{
 
 const SignIn = ({ closePortal }: LoginComponentInterface) => {
 
-    const [ username, setUsername ] = useState("");
+    const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
+
+    const { signInUser } = useAuth();
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         //Validation
         //API Call
-        try{
-            const signedInUser = await signInWithEmailAndPassword(auth, username, password);
-            const user = signedInUser.user;
-
-            const docRef = doc(firestore, 'users', user.uid);
-            const docSnap = await getDoc(docRef);
-
-            if(docSnap.exists()) {
-
-            } else {
-
-            }
-            return <Navigate to="/chat"/>
-        } catch(error) {
-            alert(error);
-        }
+        await signInUser({ email, password });
+        return <Navigate to="/chat"/>
     }
 
     return(
@@ -44,8 +30,8 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
                 <form className="self-center w-full lg:w-7/12" onSubmit={handleSubmit} autoComplete="off">
                     <fieldset className="flex flex-col">
                         <fieldset>Personal Information</fieldset>
-                        <label htmlFor="username" className="text-white text-lg p-2">Username</label>
-                        <input type="text" value={username} onChange={(event) => setUsername(event.target.value)} id="username" className="p-3 rounded-lg" placeholder="Enter your username." required/>
+                        <label htmlFor="username" className="text-white text-lg p-2">Email</label>
+                        <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} id="username" className="p-3 rounded-lg" placeholder="Enter your email." required/>
 
                         <label htmlFor="password" className="text-white text-lg p-2 ">Password</label>
                         <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} id="password" className="p-3 rounded-lg" placeholder="Enter your password." required/>

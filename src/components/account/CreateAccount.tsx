@@ -1,8 +1,6 @@
 import { useState, FormEvent } from "react";
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-import { auth, firestore } from '../../config/firebaseAuth';
 import { Navigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 import Modal from "../utils/Modal";
 
 interface CreateAccountComponentInterface{
@@ -18,24 +16,13 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
     const [ password, setPassword ] = useState("");
     const [ verifyPassword, setVerifyPassword ] = useState("");
 
+    const { createAccount } = useAuth();
+
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         //Validation
-
-        try{
-            //Creates new user.
-            const credentials = await createUserWithEmailAndPassword(auth, email, password);
-            console.log(credentials);
-
-            //Stores additional data in firestore.
-            const user = credentials.user;
-            await setDoc(doc(firestore, "user", user.uid), {
-                username, email
-            });
-            return <Navigate to="/chat"/>
-        }catch(error){
-            console.log(error);
-        }
+        createAccount({ email, password });
+        return <Navigate to="/chat"/>
     }
 
     return(
