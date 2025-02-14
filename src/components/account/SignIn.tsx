@@ -1,7 +1,9 @@
 import { useState, FormEvent } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { Navigate } from "react-router-dom";
+import AccountError from "./utils/AccountError";
 import Modal from "../utils/Modal";
+import { FirebaseError } from "firebase/app";
 
 interface LoginComponentInterface{
     closePortal: () => void;
@@ -11,6 +13,7 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
 
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
+    const [ errorCode, setErrorCode ] = useState("");
 
     const { signInUser } = useAuth();
 
@@ -18,7 +21,11 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
         event.preventDefault();
         //Validation
         //API Call
-        await signInUser({ email, password });
+        try {
+            await signInUser({ email, password });
+        } catch(error) {
+            if(error instanceof FirebaseError) setErrorCode(error.code);
+        }
         return <Navigate to="/chat"/>
     }
 
@@ -30,6 +37,7 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
                 <form className="self-center w-full lg:w-7/12" onSubmit={handleSubmit} autoComplete="off">
                     <fieldset className="flex flex-col">
                         <fieldset>Personal Information</fieldset>
+                        {errorCode && <AccountError message={errorCode}/>}
                         <label htmlFor="username" className="text-white text-lg p-2">Email</label>
                         <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} id="username" className="p-3 rounded-lg" placeholder="Enter your email." required/>
 

@@ -1,7 +1,9 @@
-import { useState, FormEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import Modal from "../utils/Modal";
+import AccountError from "./utils/AccountError";
+import { FirebaseError } from "firebase/app";
 
 interface CreateAccountComponentInterface{
     closePortal: () => void;
@@ -15,13 +17,22 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
     const [ verifyPassword, setVerifyPassword ] = useState("");
+    const [ errorCode, setErrorCode ] = useState("");
 
     const { createAccount } = useAuth();
+
+    useEffect(() => {
+        setErrorCode("");
+    }, [username, email, password, verifyPassword]);
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         //Validation
-        createAccount({ email, password });
+        try {
+            await createAccount({ email, password });
+        } catch(error) {
+            if(error instanceof FirebaseError) setErrorCode(error.code);
+        }
         return <Navigate to="/chat"/>
     }
 
@@ -30,9 +41,9 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
             <section className="w-full max-h-min flex flex-col overflow-auto">
                 <button onClick={closePortal} className="text-white text-2xl self-start hover:text-gray-400">&times;</button>
                 <h3 className="text-white place-self-center text-3xl pt-8">Create Account</h3>
+                {errorCode && <AccountError message={errorCode}/>}
                 <form className="self-center w-full lg:w-8/12" onSubmit={handleSubmit} autoComplete="off">
                     <fieldset className="flex flex-col">
-                        <fieldset>Personal Information</fieldset>
                         <section className="flex flex-col lg:flex-row gap-0 lg:gap-5">
                             <section className="flex flex-col w-full">
                                 <label htmlFor="username" className="text-white text-lg p-2">Username</label>

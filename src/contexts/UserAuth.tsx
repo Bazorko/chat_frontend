@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import { auth, firestore } from "../config/firebaseAuth";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { FirebaseError } from "firebase/app";
 
 interface UserAuthContextObject {
     isAuth: boolean
@@ -36,10 +37,7 @@ export const AuthProvider = (props: UserAuthContextProps) => {
 
     //Sign in user
     const signInUser = async ({ email, password }: UserObject) => {
-        try{
-            const signedInUser = await signInWithEmailAndPassword(auth, email, password);
-            const user = signedInUser.user;
-
+            await signInWithEmailAndPassword(auth, email, password);
             //const docRef = doc(firestore, 'users', user.uid);
             //const docSnap = await getDoc(docRef);
 
@@ -48,18 +46,11 @@ export const AuthProvider = (props: UserAuthContextProps) => {
             } else {
 
             }*/
-        } catch(error) {
-            alert(error);
-        }
     }
 
     //Create account
     const createAccount = async ({ email, password }: UserObject) => {
-        try {
-            await createUserWithEmailAndPassword(auth, email, password);
-        } catch(error) {
-            console.log(error);
-        }
+        await createUserWithEmailAndPassword(auth, email, password);
     }
 
     //Logout user
