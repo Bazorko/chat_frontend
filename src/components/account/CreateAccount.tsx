@@ -1,6 +1,7 @@
 import { useState, useEffect, FormEvent } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { useData } from "../../hooks/useData";
 import Modal from "../utils/Modal";
 import AccountError from "./utils/AccountError";
 import { FirebaseError } from "firebase/app";
@@ -20,6 +21,7 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
     const [ errorCode, setErrorCode ] = useState("");
 
     const { createAccount } = useAuth();
+    const { sendUserDataToDb } = useData();
 
     useEffect(() => {
         setErrorCode("");
@@ -30,6 +32,8 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
         //Validation
         try {
             await createAccount({ email, password });
+            await sendUserDataToDb({ username, email });
+            
         } catch(error) {
             if(error instanceof FirebaseError) setErrorCode(error.code);
         }
