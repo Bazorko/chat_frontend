@@ -7,15 +7,13 @@ import { AuthProvider } from "./contexts/UserAuth.tsx";
 import { DataProvider } from "./contexts/UserData.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <AuthProvider>
-      <DataProvider>
-        <BrowserRouter>
-            <Routes>
-              <Route path="/*" element={<App />}/>
-            </Routes>
-        </BrowserRouter>
-      </DataProvider>
-    </AuthProvider>
-  </StrictMode>,
+  <AuthProvider>
+    <DataProvider>
+      <BrowserRouter>
+          <Routes>
+            <Route path="/*" element={<App />}/>
+          </Routes>
+      </BrowserRouter>
+    </DataProvider>
+  </AuthProvider>,
 )

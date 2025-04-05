@@ -1,5 +1,6 @@
 import { useState, FormEvent } from "react";
 import { useAuth } from "../../hooks/useAuth";
+import { useData } from "../../hooks/useData";
 import { Navigate } from "react-router-dom";
 import AccountError from "./utils/AccountError";
 import Modal from "../utils/Modal";
@@ -16,6 +17,7 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
     const [ errorCode, setErrorCode ] = useState("");
 
     const { signInUser } = useAuth();
+    const { retrieveUserDataFromDb } = useData();
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
@@ -23,6 +25,11 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
         //API Call
         try {
             await signInUser({ email, password });
+        } catch(error) {
+            if(error instanceof FirebaseError) setErrorCode(error.code);
+        }
+        try {
+            await retrieveUserDataFromDb({ email });
         } catch(error) {
             if(error instanceof FirebaseError) setErrorCode(error.code);
         }

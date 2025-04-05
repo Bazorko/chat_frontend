@@ -48,6 +48,7 @@ export const AuthProvider = (props: UserAuthContextProps) => {
     const logout = async () => {
         try {
           await signOut(auth);
+          localStorage.removeItem("user");
         } catch (err) {
           console.error(err);
         }

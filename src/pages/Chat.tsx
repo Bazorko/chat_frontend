@@ -27,10 +27,10 @@ const Chat = () => {
             <Nav />
             {/*Message List - render when on larger viewports*/}
             <section className="flex flex-row w-full grow">
-                <section className="hidden lg:inline-block">
-                    <MessageList />
+                <section className="hidden lg:inline-block px-10 w-3/12">
+                    <MessageList/>
                 </section>
-                <section className="flex flex-col grow lg:px-20">
+                <section className="flex flex-col grow lg:px-10">
                     {/*Chat Window*/}
                     <section className="p-8 pt-0 grow overflow-auto flex flex-col">
                         <h2 className="text-white text-center text-lg p-5">Uco</h2>

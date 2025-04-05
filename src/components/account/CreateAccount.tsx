@@ -31,8 +31,19 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
         event.preventDefault();
         //Validation
         try {
-            await createAccount({ email, password });
-            await sendUserDataToDb({ username, email });
+            try{
+                await createAccount({ email, password });
+            } catch(error){
+                if(error instanceof FirebaseError) setErrorCode(error.code);
+                return;
+            }
+            try{
+                await sendUserDataToDb({ username, email });
+            } catch(error){
+                console.log(error);
+                //delete account from firebase auth
+                return;
+            }
             
         } catch(error) {
             if(error instanceof FirebaseError) setErrorCode(error.code);
