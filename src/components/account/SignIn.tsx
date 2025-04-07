@@ -44,7 +44,7 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
                 <form className="self-center w-full lg:w-7/12" onSubmit={handleSubmit} autoComplete="off">
                     <fieldset className="flex flex-col">
                         <fieldset>Personal Information</fieldset>
-                        {errorCode && <AccountError message={errorCode}/>}
+                        { errorCode && <AccountError message={errorCode}/> }
                         <label htmlFor="username" className="text-white text-lg p-2">Email</label>
                         <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} id="username" className="p-3 rounded-lg" placeholder="Enter your email." required/>
 

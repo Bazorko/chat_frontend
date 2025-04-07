@@ -1,10 +1,20 @@
 import { useState, FormEvent } from "react";
 import Nav from  "../components/Nav.tsx";
 import MessageList from "../components/account/chat/MessageList.tsx";
+import Modal from "../components/utils/Modal.tsx";
 
 const Chat = () => {
 
     const [ message, setMessage ] = useState("");
+
+    const [ isPortalOpen, setIsPortalOpen ] = useState(false);
+
+    const openPortal = () => {
+        setIsPortalOpen(true);
+    };
+    const closePortal = () => {
+        setIsPortalOpen(false);
+    };
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
@@ -27,7 +37,7 @@ const Chat = () => {
             <Nav />
             {/*Message List - render when on larger viewports*/}
             <section className="flex flex-row w-full grow">
-                <section className="hidden lg:inline-block px-10 w-3/12">
+                <section className="hidden lg:block px-10 w-3/12">
                     <MessageList/>
                 </section>
                 <section className="flex flex-col grow lg:px-10">
