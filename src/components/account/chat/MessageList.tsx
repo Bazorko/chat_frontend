@@ -5,7 +5,7 @@ import Modal from "../../utils/Modal";
 import AccountError from "../utils/AccountError";
 
 const MessageList = () => {
-    const { user, setMessages, addNewContact, updateUserDataInLocalStorage } = useData();
+    const { user, downloadMessages, addNewContact, updateUserDataInLocalStorage } = useData();
 
     const [ errorMessage, setErrorMessage ] = useState("");
     const [ isPortalOpen, setIsPortalOpen ] = useState(false);
@@ -30,22 +30,6 @@ const MessageList = () => {
         if(!response.ok) setErrorMessage(json.message);
         updateUserDataInLocalStorage(json.data);
         setContact("");
-    }
-
-    const downloadMessages = async (self:string | undefined, contact: string) => {
-        const url = `http://localhost:3000/user/messages`;
-        const options: RequestInit = {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ self, contact })
-        }
-        const response = await fetch(url, options);
-        const json = await response.json();
-        console.log(json.data.messages);
-        setMessages(json.data.messages);
     }
 
     const handleDeleteContact = async () => {

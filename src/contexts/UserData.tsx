@@ -21,7 +21,7 @@ interface MessagesObject{
 interface UserDataContextObject{
     user: UserData,
     messages: MessagesObject[],
-    setMessages: (messages: MessagesObject[]) => any
+    downloadMessages: (self: string | undefined, contact: string) => void
     updateUserDataInLocalStorage: (json: UserData) => void,
     setUser: (user: UserData) => any,
     sendUserDataToDb: (userData: UserData) => void,
@@ -103,8 +103,24 @@ export const DataProvider = (props: UserDataContextProps) => {
         return response;
     }
 
+    //Doownload messages.
+    const downloadMessages = async (self:string | undefined, contact: string) => {
+        const url = `http://localhost:3000/user/messages`;
+        const options: RequestInit = {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ self, contact })
+        }
+        const response = await fetch(url, options);
+        const json = await response.json();
+        setMessages(json.data.messages);
+    }
+
     return(
-        <DataContext.Provider value={{ user, messages, setMessages, updateUserDataInLocalStorage, setUser, sendUserDataToDb, retrieveUserDataFromDb, addNewContact }}>
+        <DataContext.Provider value={{ user, messages, downloadMessages, updateUserDataInLocalStorage, setUser, sendUserDataToDb, retrieveUserDataFromDb, addNewContact }}>
             {props.children }
         </DataContext.Provider>
     );

@@ -1,11 +1,17 @@
-import { useState, FormEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { useData } from "../hooks/useData";
 
 const MessageWindow = () => {
 
     const [ input, setInput ] = useState("");
 
-    const { user, messages } = useData();
+    const { user, messages, downloadMessages } = useData();
+
+    useEffect(() => {
+        if(user.inbox){
+            downloadMessages(user._id, user.inbox[0]._id);
+        }
+    }, []);
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
