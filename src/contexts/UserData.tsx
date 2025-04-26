@@ -8,8 +8,20 @@ interface UserData{
     createdAt?: string
 }
 
+interface MessagesObject{
+    _id?: string,
+    to?: string,
+    from?: string,
+    content?: string,
+    sentAt?: string
+    __v?: number
+}
+
+
 interface UserDataContextObject{
     user: UserData,
+    messages: MessagesObject[],
+    setMessages: (messages: MessagesObject[]) => any
     updateUserDataInLocalStorage: (json: UserData) => void,
     setUser: (user: UserData) => any,
     sendUserDataToDb: (userData: UserData) => void,
@@ -26,6 +38,7 @@ export const DataContext = createContext<UserDataContextObject | null>(null);
 export const DataProvider = (props: UserDataContextProps) => {
 
     const [ user, setUser ] = useState<UserData>({ inbox: [] });
+    const [ messages,  setMessages ] = useState<MessagesObject[]>([]);
 
     useEffect(() => {
         const userDataStringified = localStorage.getItem("user");
@@ -33,7 +46,7 @@ export const DataProvider = (props: UserDataContextProps) => {
             const userDataParsed = JSON.parse(userDataStringified);
             updateUserDataInLocalStorage(userDataParsed);
         }
-    },[localStorage.getItem("user")]);
+    },[]);
 
     //Updates user data in local storage, and in context.
     const updateUserDataInLocalStorage = (json: any) => {
@@ -91,7 +104,7 @@ export const DataProvider = (props: UserDataContextProps) => {
     }
 
     return(
-        <DataContext.Provider value={{ user, updateUserDataInLocalStorage, setUser, sendUserDataToDb, retrieveUserDataFromDb, addNewContact }}>
+        <DataContext.Provider value={{ user, messages, setMessages, updateUserDataInLocalStorage, setUser, sendUserDataToDb, retrieveUserDataFromDb, addNewContact }}>
             {props.children }
         </DataContext.Provider>
     );

@@ -5,7 +5,7 @@ import Modal from "../../utils/Modal";
 import AccountError from "../utils/AccountError";
 
 const MessageList = () => {
-    const { user, addNewContact, updateUserDataInLocalStorage } = useData();
+    const { user, setMessages, addNewContact, updateUserDataInLocalStorage } = useData();
 
     const [ errorMessage, setErrorMessage ] = useState("");
     const [ isPortalOpen, setIsPortalOpen ] = useState(false);
@@ -30,6 +30,22 @@ const MessageList = () => {
         if(!response.ok) setErrorMessage(json.message);
         updateUserDataInLocalStorage(json.data);
         setContact("");
+    }
+
+    const downloadMessages = async (self:string | undefined, contact: string) => {
+        const url = `http://localhost:3000/user/messages`;
+        const options: RequestInit = {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ self, contact })
+        }
+        const response = await fetch(url, options);
+        const json = await response.json();
+        console.log(json.data.messages);
+        setMessages(json.data.messages);
     }
 
     const handleDeleteContact = async () => {
@@ -60,13 +76,13 @@ const MessageList = () => {
                     <button className="text-neutral-900 bg-neutral-300 border-neutral-300 border-2 rounded-lg py-1">Search</button>
                 </form>
                 <ul className="text-center mt-8">
-                    { inbox?.map(contact => {
+                    { inbox?.length ? inbox?.map(contact => {
                         return(
                             <li key={contact._id} className="flex text-white text-center text-lg p-3">
-                                <p className="w-full">{contact.username}</p>
+                                <p className="w-full" onClick={() => downloadMessages(user._id, contact._id)} >{contact.username}</p>
                                 <p onClick={() => openPortal(contact.username)} className="text-white text-xl cursor-pointer">&times;</p>
                             </li>);
-                        }) 
+                        }) : <p className="text-white">Add someone to get started.</p>
                     }
                 </ul>
             </section>
