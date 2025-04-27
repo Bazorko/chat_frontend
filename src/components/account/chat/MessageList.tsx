@@ -5,7 +5,7 @@ import Modal from "../../utils/Modal";
 import AccountError from "../utils/AccountError";
 
 const MessageList = () => {
-    const { user, downloadMessages, addNewContact, updateUserDataInLocalStorage } = useData();
+    const { user, downloadMessages,addNewContact, updateUserDataInLocalStorage } = useData();
 
     const [ errorMessage, setErrorMessage ] = useState("");
     const [ isPortalOpen, setIsPortalOpen ] = useState(false);
@@ -62,7 +62,7 @@ const MessageList = () => {
                 <ul className="text-center mt-8">
                     { inbox?.length ? inbox?.map(contact => {
                         return(
-                            <li key={contact._id} className="flex text-white text-center text-lg p-3">
+                            <li key={contact._id} className="flex text-white text-center text-lg p-3 cursor-pointer">
                                 <p className="w-full" onClick={() => downloadMessages(user._id, contact._id)} >{contact.username}</p>
                                 <p onClick={() => openPortal(contact.username)} className="text-white text-xl cursor-pointer">&times;</p>
                             </li>);
