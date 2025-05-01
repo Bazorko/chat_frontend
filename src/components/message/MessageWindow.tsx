@@ -1,18 +1,10 @@
-import { useState, FormEvent } from "react";
 import { useData } from "../../hooks/useData";
 import LoadingComponent from "../../utils/assets/LoadingComponent";
+import SubmitMessage from "./components/SubmitMessage";
 
 const MessageWindow = () => {
 
-    const [ input, setInput ] = useState("");
-
     const { user, loading, contactUsername, messages } = useData();
-
-    const handleSubmit = (event: FormEvent) => {
-        event.preventDefault();
-        //Validation
-        //API Call
-    }
 
     return(
         <>
@@ -32,10 +24,7 @@ const MessageWindow = () => {
             }
             {/*Chat Box*/}
             <section className="p-8">
-                <form className="flex gap-2" onSubmit={ handleSubmit } autoComplete="off">
-                    <input type="text" value={ input } onChange={ (event) => setInput(event.target.value) } className="border-white grow p-2 rounded-lg" placeholder="Enter your message"/>
-                    <button className="text-white w-1/4 p-2 bg-primary_blue border-primary_blue hover:bg-primary_blue_darker hover:border-primary_blue_darker rounded-lg">Send</button>
-                </form>
+                <SubmitMessage />
             </section>
         </>
     );
