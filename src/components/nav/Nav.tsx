@@ -1,7 +1,7 @@
 import { useState } from "react";
-import ModalContainer from "./utils/ModalContainer";
-import MenuIcon from "./utils/assets/MenuIcon";
-import AccountImagePlaceholderIcon from "./utils/assets/AccountIcon";
+import ModalContainer from "../../utils/ui-containers/ModalContainer";
+import MenuIcon from "../../utils/assets/MenuIcon";
+import AccountImagePlaceholderIcon from "../../utils/assets/AccountIcon";
 
 const Nav = () => {
     const [ isModalContainerOpen, setIsModalContainerOpen ] = useState(false);

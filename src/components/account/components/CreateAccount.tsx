@@ -1,9 +1,9 @@
 import { useState, useEffect, FormEvent } from "react";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
-import { useData } from "../../hooks/useData";
-import Modal from "../utils/Modal";
-import AccountError from "./utils/AccountError";
+import { useAuth } from "../../../hooks/useAuth";
+import { useData } from "../../../hooks/useData";
+import Modal from "../../../utils/ui-containers/Modal";
+import AccountError from "./AccountError";
 import { FirebaseError } from "firebase/app";
 
 interface CreateAccountComponentInterface{

@@ -1,8 +1,8 @@
 import { FormEvent, useState } from "react";
-import { useData } from "../../../hooks/useData";
-import Portal from "../../utils/Portal";
-import Modal from "../../utils/Modal";
-import AccountError from "../utils/AccountError";
+import { useData } from "../../hooks/useData";
+import Portal from "../../utils/ui-containers/Portal";
+import Modal from "../../utils/ui-containers/Modal";
+import AccountError from "./components/AccountError";
 
 const MessageList = () => {
     const { user, downloadMessages, addContact, deleteContact, updateUserDataInLocalStorage } = useData();

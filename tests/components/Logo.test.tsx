@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Logo from "../../src/components/utils/assets/Logo";
+import Logo from "../../src/utils/assets/Logo";
 
 describe("Logo.tsx", () => {
     const renderComponent = () => {

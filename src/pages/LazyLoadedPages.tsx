@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import LoadingComponent from "../components/utils/assets/LoadingComponent";
+import LoadingComponent from "../utils/assets/LoadingComponent";
 
 interface LazyLoadedPagesProps{
     children: JSX.Element

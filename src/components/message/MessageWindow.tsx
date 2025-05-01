@@ -1,6 +1,6 @@
 import { useState, FormEvent } from "react";
-import { useData } from "../hooks/useData";
-import LoadingComponent from "./utils/assets/LoadingComponent";
+import { useData } from "../../hooks/useData";
+import LoadingComponent from "../../utils/assets/LoadingComponent";
 
 const MessageWindow = () => {
 

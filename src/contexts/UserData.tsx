@@ -119,7 +119,10 @@ export const DataProvider = (props: UserDataContextProps) => {
         }
         const response = await fetch(url, options);
         const json = await response.json();
-        if(response.ok) updateUserDataInLocalStorage(json.data);
+        if(response.ok) {
+            updateUserDataInLocalStorage(json.data);
+            setMessages([]);
+        }
     }
 
     //Download messages.

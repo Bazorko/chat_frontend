@@ -1,8 +1,8 @@
 import { lazy } from "react";
 import { Routes, Route } from "react-router-dom";
-import RequireAuth from "./components/utils/RequireAuth.tsx";
-import Layout from "./components/utils/Layout.tsx";
-import PublicRoutes from "./components/utils/PublicRoutes.tsx";
+import RequireAuth from "./utils/auth/RequireAuth.tsx";
+import Layout from "./utils/ui-containers/Layout.tsx";
+import PublicRoutes from "./utils/auth/PublicRoutes.tsx";
 import Home from "./pages/Home.tsx";
 import LazyLoadedPages from "./pages/LazyLoadedPages.tsx";
 

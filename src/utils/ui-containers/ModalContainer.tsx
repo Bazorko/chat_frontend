@@ -1,5 +1,5 @@
-import AccountList from "../account/chat/AccountList";
-import MessageList from "../account/chat/MessageList";
+import AccountList from "../../components/account/components/AccountList";
+import MessageList from "../../components/account/MessageList";
 
 interface ModalContainerProps{
     modalContainer: (bool: boolean) => void

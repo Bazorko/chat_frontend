@@ -1,7 +1,7 @@
 import { screen, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Portal from "../../../src/components/utils/Portal";
-import SignIn from "../../../src/components/account/SignIn";
+import SignIn from "../../../src/components/account/components/SignIn";
 
 interface RenderProps {
     children: JSX.Element,

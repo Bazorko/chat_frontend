@@ -1,5 +1,5 @@
 import { screen, render } from "@testing-library/react";
-import Footer from "../../src/components/Footer";
+import Footer from "../../src/components/footer/Footer";
 
 describe("Footer.tsx", () => {
     const renderComponent = () => {

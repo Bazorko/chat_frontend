@@ -1,6 +1,6 @@
-import Nav from  "../components/Nav.tsx";
-import MessageList from "../components/account/chat/MessageList.tsx";
-import MessageWindow from "../components/MessageWindow.tsx";
+import Nav from  "../components/nav/Nav.tsx";
+import MessageList from "../components/account/MessageList.tsx";
+import MessageWindow from "../components/message/MessageWindow.tsx";
 
 const Chat = () => {
     return (
