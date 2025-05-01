@@ -22,6 +22,7 @@ interface UserDataContextObject{
     user: UserData,
     contactUsername: string,
     messages: MessagesObject[],
+    loading: boolean,
     downloadMessages: (userId: string | undefined, contactId: string | undefined, contactUsername: string) => void,
     addContact: (newContact: string) => void,
     deleteContact: (userId: string | undefined, contactId: string) => void,
@@ -40,6 +41,7 @@ export const DataContext = createContext<UserDataContextObject | null>(null);
 export const DataProvider = (props: UserDataContextProps) => {
 
     const [ user, setUser ] = useState<UserData>({ inbox: [] });
+    const [ loading, setLoading ] = useState(false);
     const [ contactUsername, setContactUsername ] = useState("");
     const [ messages,  setMessages ] = useState<MessagesObject[]>([]);
 
@@ -122,6 +124,7 @@ export const DataProvider = (props: UserDataContextProps) => {
 
     //Download messages.
     const downloadMessages = async (userId: string | undefined, contactId: string | undefined, contactUsername: string) => {
+        setLoading(true);
         const url = `http://localhost:3000/api/${ userId }/messages?contact=${ contactId }`;
         const options: RequestInit = {
             method: "GET",
@@ -131,10 +134,11 @@ export const DataProvider = (props: UserDataContextProps) => {
         const json = await response.json();
         setMessages(json.data.messages);
         setContactUsername(contactUsername);
+        setLoading(false);
     }
 
     return(
-        <DataContext.Provider value={{ user, contactUsername, messages, downloadMessages, updateUserDataInLocalStorage, setUser, sendUserDataToDb, retrieveUserDataFromDb, addContact, deleteContact }}>
+        <DataContext.Provider value={{ user, loading, contactUsername, messages, downloadMessages, updateUserDataInLocalStorage, setUser, sendUserDataToDb, retrieveUserDataFromDb, addContact, deleteContact }}>
             {props.children }
         </DataContext.Provider>
     );

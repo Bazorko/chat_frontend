@@ -7,7 +7,11 @@ interface LazyLoadedPagesProps{
 
 const LazyLoadedPages = ({ children }: LazyLoadedPagesProps) => {
   return (
-    <Suspense fallback={<LoadingComponent />}>
+    <Suspense fallback={
+        <div className="absolute w-full h-screen flex justify-center items-center">
+          <LoadingComponent />
+        </div>
+    }>
         { children }
     </Suspense>
   )
