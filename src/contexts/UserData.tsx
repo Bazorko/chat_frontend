@@ -20,13 +20,15 @@ interface MessagesObject{
 
 interface UserDataContextObject{
     user: UserData,
+    contactUsername: string,
     messages: MessagesObject[],
-    downloadMessages: (self: string | undefined, contact: string) => void
+    downloadMessages: (userId: string | undefined, contactId: string | undefined, contactUsername: string) => void,
+    addContact: (newContact: string) => void,
+    deleteContact: (userId: string | undefined, contactId: string) => void,
     updateUserDataInLocalStorage: (json: UserData) => void,
     setUser: (user: UserData) => any,
     sendUserDataToDb: (userData: UserData) => void,
-    retrieveUserDataFromDb: (userData: UserData) => void,
-    addNewContact: (newContact: string) => void
+    retrieveUserDataFromDb: (identifier: string) => void,
 }
 
 interface UserDataContextProps{
@@ -38,6 +40,7 @@ export const DataContext = createContext<UserDataContextObject | null>(null);
 export const DataProvider = (props: UserDataContextProps) => {
 
     const [ user, setUser ] = useState<UserData>({ inbox: [] });
+    const [ contactUsername, setContactUsername ] = useState("");
     const [ messages,  setMessages ] = useState<MessagesObject[]>([]);
 
     useEffect(() => {
@@ -49,8 +52,8 @@ export const DataProvider = (props: UserDataContextProps) => {
     },[]);
 
     //Updates user data in local storage, and in context.
-    const updateUserDataInLocalStorage = (json: any) => {
-        localStorage.setItem("user", JSON.stringify(json));
+    const updateUserDataInLocalStorage = async (json: any) => {
+        await localStorage.setItem("user", JSON.stringify(json));
         setUser({ ...json });
     }
 
@@ -72,7 +75,7 @@ export const DataProvider = (props: UserDataContextProps) => {
     }
 
     //On sign in
-    const retrieveUserDataFromDb = async (userData: UserData) => {
+    const retrieveUserDataFromDb = async (identifier: string) => {
         const url = "http://localhost:3000/user/signin";
         const options: RequestInit = {
             method: "POST",
@@ -80,7 +83,7 @@ export const DataProvider = (props: UserDataContextProps) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(userData)
+            body: JSON.stringify({ identifier })
         };
         const response = await fetch(url, options);
         if(response.ok) console.log("Successfully signed in.");
@@ -88,9 +91,11 @@ export const DataProvider = (props: UserDataContextProps) => {
         updateUserDataInLocalStorage(json.data);
     }
 
+    //API
+
     //Add contact
-    const addNewContact = async (newContact: string) => {
-        const url = "http://localhost:3000/user/contacts";
+    const addContact = async (newContact: string) => {
+        const url = "http://localhost:3000/api/contacts";
         const options: RequestInit = {
             method: "POST",
             credentials: "include",
@@ -103,24 +108,33 @@ export const DataProvider = (props: UserDataContextProps) => {
         return response;
     }
 
-    //Doownload messages.
-    const downloadMessages = async (self:string | undefined, contact: string) => {
-        const url = `http://localhost:3000/user/messages`;
+    //Delete Contact
+    const deleteContact = async (userId: string | undefined, contactId: string) => {
+        const url = `http://localhost:3000/api/${ userId }/contacts/${ contactId }`;
         const options: RequestInit = {
-            method: "POST",
+            method: "DELETE",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ self, contact })
+        }
+        const response = await fetch(url, options);
+        const json = await response.json();
+        if(response.ok) updateUserDataInLocalStorage(json.data);
+    }
+
+    //Download messages.
+    const downloadMessages = async (userId: string | undefined, contactId: string | undefined, contactUsername: string) => {
+        const url = `http://localhost:3000/api/${ userId }/messages?contact=${ contactId }`;
+        const options: RequestInit = {
+            method: "GET",
+            credentials: "include",
         }
         const response = await fetch(url, options);
         const json = await response.json();
         setMessages(json.data.messages);
+        setContactUsername(contactUsername);
     }
 
     return(
-        <DataContext.Provider value={{ user, messages, downloadMessages, updateUserDataInLocalStorage, setUser, sendUserDataToDb, retrieveUserDataFromDb, addNewContact }}>
+        <DataContext.Provider value={{ user, contactUsername, messages, downloadMessages, updateUserDataInLocalStorage, setUser, sendUserDataToDb, retrieveUserDataFromDb, addContact, deleteContact }}>
             {props.children }
         </DataContext.Provider>
     );

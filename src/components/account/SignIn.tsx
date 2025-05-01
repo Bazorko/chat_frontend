@@ -25,15 +25,12 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
         //API Call
         try {
             await signInUser({ email, password });
+            await retrieveUserDataFromDb(email);
         } catch(error) {
             if(error instanceof FirebaseError) setErrorCode(error.code);
+        } finally {
+            return <Navigate to="/chat"/>
         }
-        try {
-            await retrieveUserDataFromDb({ email });
-        } catch(error) {
-            if(error instanceof FirebaseError) setErrorCode(error.code);
-        }
-        return <Navigate to="/chat"/>
     }
 
     return(
