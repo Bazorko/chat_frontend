@@ -29,7 +29,7 @@ interface UserDataContextObject{
     messages: MessagesObject[],
     loading: boolean,
     setLoading: (isLoading: boolean) => void,
-    setMessages: (msgs: MessagesObject[]) => void;
+    setMessages: any,
     downloadMessages: (userId: string | undefined, contactId: string | undefined, contactUsername: string) => void,
     addContact: (newContact: string) => void,
     deleteContact: (userId: string | undefined, contactId: string) => void,
@@ -50,7 +50,7 @@ export const DataProvider = (props: UserDataContextProps) => {
     const [ user, setUser ] = useState<UserData>({ inbox: [] });
     const [ loading, setLoading ] = useState(false);
     const [ contact, setContact ] = useState<Contact | undefined>(undefined);
-    const [ messages,  setMessages ] = useState<MessagesObject[]>([]);
+    const [ messages, setMessages ] = useState<any>([]);
 
     useEffect(() => {
         const userDataStringified = localStorage.getItem("user");
@@ -142,9 +142,10 @@ export const DataProvider = (props: UserDataContextProps) => {
         }
         const response = await fetch(url, options);
         const json = await response.json();
-        setMessages(json.data.messages);
+        setMessages([...json.data.messages]);
         setContact({ contactId: contactId, username: contactUsername });
         setLoading(false);
+        console.log(messages);
     }
 
     return(

@@ -1,13 +1,33 @@
-import { useState, FormEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import LoadingComponent from "../../../utils/assets/LoadingComponent";
 import { useData } from "../../../hooks/useData";
 import { socket } from "../../../socketstuff/socket";
+
+interface MessagesObject{
+    _id?: string,
+    to?: string,
+    from?: string,
+    content?: string,
+    sentAt?: string
+    __v?: number
+}
 
 const SubmitMessage = () => {
     const [ input, setInput ] = useState("");
     const [ isLoading, setIsLoading ] = useState(false);
 
-    const { user, contact } = useData();
+    const { user, contact, messages, setMessages } = useData();
+
+    useEffect(() => {
+        const handleReturnMesage = (msg: any) => {
+            //setMessages([...messages, msg]);
+            setMessages((prevMessages: any) => [...prevMessages, msg]);
+        }
+        socket.on("returnMessage", handleReturnMesage);
+        return() => {
+            socket.off("returnMessage", handleReturnMesage);
+        };
+    }, []);
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();

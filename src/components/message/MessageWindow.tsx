@@ -1,22 +1,11 @@
+import { useState } from "react";
 import { useData } from "../../hooks/useData";
 import LoadingComponent from "../../utils/assets/LoadingComponent";
 import SubmitMessage from "./components/SubmitMessage";
-import { socket } from "../../socketstuff/socket";
-import { useEffect } from "react";
 
 const MessageWindow = () => {
 
-    const { user, loading, contact, messages, setMessages } = useData();
-
-    useEffect(() => {
-        socket.on("returnMessage", (msg) => {
-            console.log([...messages, msg]);
-            setMessages([...messages, msg]);
-        });
-        return () => {
-            socket.off("returnMessage", () => {});
-        }
-    }, []);
+    const { user, loading, contact, messages } = useData();
 
     return(
         <>
@@ -36,7 +25,7 @@ const MessageWindow = () => {
             }
             {/*Chat Box*/}
             <section className="p-8">
-                <SubmitMessage />
+                <SubmitMessage/>
             </section>
         </>
     );
