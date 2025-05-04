@@ -3,6 +3,8 @@ import { useData } from "../../hooks/useData";
 import Portal from "../../utils/ui-containers/Portal";
 import Modal from "../../utils/ui-containers/Modal";
 import AccountError from "./components/AccountError";
+import { socket } from "../../socketstuff/socket";
+import { connect, disconnect } from "../../socketstuff/ConnectionManager";
 
 const MessageList = () => {
     const { user, downloadMessages, addContact, deleteContact, updateUserDataInLocalStorage } = useData();
@@ -33,6 +35,12 @@ const MessageList = () => {
         updateUserDataInLocalStorage(json.data);
         setContact("");
     }
+
+    const handleClick = (contactId: string, contactUsername: string) => {
+        downloadMessages(user._id, contactId, contactUsername);
+        if(socket.connected) disconnect();
+        connect();
+    }
     return (
         <>
             <section className="self-center">
@@ -49,7 +57,7 @@ const MessageList = () => {
                     { inbox?.length ? inbox?.map(contact => {
                         return(
                             <li key={ contact._id } className="flex text-white text-center text-lg p-3 cursor-pointer">
-                                <p className="w-full" onClick={ () => downloadMessages(user._id, contact._id, contact.username) } >{ contact.username }</p>
+                                <p className="w-full" onClick={ () => handleClick(contact._id, contact.username) } >{ contact.username }</p>
                                 <p onClick={ () => openPortal(contact._id, contact.username) } className="text-white text-xl cursor-pointer">&times;</p>
                             </li>);
                         }) : <p className="text-white">Add someone to get started.</p>

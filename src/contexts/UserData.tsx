@@ -8,6 +8,11 @@ interface UserData{
     createdAt?: string
 }
 
+interface Contact{
+    contactId: string | undefined,
+    username: string | undefined,
+}
+
 interface MessagesObject{
     _id?: string,
     to?: string,
@@ -20,9 +25,11 @@ interface MessagesObject{
 
 interface UserDataContextObject{
     user: UserData,
-    contactUsername: string,
+    contact: Contact | undefined,
     messages: MessagesObject[],
     loading: boolean,
+    setLoading: (isLoading: boolean) => void,
+    setMessages: (msgs: MessagesObject[]) => void;
     downloadMessages: (userId: string | undefined, contactId: string | undefined, contactUsername: string) => void,
     addContact: (newContact: string) => void,
     deleteContact: (userId: string | undefined, contactId: string) => void,
@@ -42,7 +49,7 @@ export const DataProvider = (props: UserDataContextProps) => {
 
     const [ user, setUser ] = useState<UserData>({ inbox: [] });
     const [ loading, setLoading ] = useState(false);
-    const [ contactUsername, setContactUsername ] = useState("");
+    const [ contact, setContact ] = useState<Contact | undefined>(undefined);
     const [ messages,  setMessages ] = useState<MessagesObject[]>([]);
 
     useEffect(() => {
@@ -136,12 +143,12 @@ export const DataProvider = (props: UserDataContextProps) => {
         const response = await fetch(url, options);
         const json = await response.json();
         setMessages(json.data.messages);
-        setContactUsername(contactUsername);
+        setContact({ contactId: contactId, username: contactUsername });
         setLoading(false);
     }
 
     return(
-        <DataContext.Provider value={{ user, loading, contactUsername, messages, downloadMessages, updateUserDataInLocalStorage, setUser, sendUserDataToDb, retrieveUserDataFromDb, addContact, deleteContact }}>
+        <DataContext.Provider value={{ user, loading, contact, messages, setLoading, setMessages, downloadMessages, updateUserDataInLocalStorage, setUser, sendUserDataToDb, retrieveUserDataFromDb, addContact, deleteContact }}>
             {props.children }
         </DataContext.Provider>
     );
