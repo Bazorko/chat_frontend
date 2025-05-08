@@ -40,6 +40,9 @@ const MessageList = () => {
         downloadMessages(user._id, contactId, contactUsername);
         if(socket.connected) disconnect();
         connect();
+        const arrayOfIds = [user._id, contactId].sort();
+        const roomName = arrayOfIds[0]! + arrayOfIds[1]!;
+        socket.emit("join room", roomName);
     }
     return (
         <>

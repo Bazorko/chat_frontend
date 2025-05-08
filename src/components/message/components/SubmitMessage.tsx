@@ -3,29 +3,20 @@ import LoadingComponent from "../../../utils/assets/LoadingComponent";
 import { useData } from "../../../hooks/useData";
 import { socket } from "../../../socketstuff/socket";
 
-interface MessagesObject{
-    _id?: string,
-    to?: string,
-    from?: string,
-    content?: string,
-    sentAt?: string
-    __v?: number
-}
-
 const SubmitMessage = () => {
     const [ input, setInput ] = useState("");
     const [ isLoading, setIsLoading ] = useState(false);
 
-    const { user, contact, messages, setMessages } = useData();
+    const { user, contact, setMessages } = useData();
 
     useEffect(() => {
         const handleReturnMesage = (msg: any) => {
             //setMessages([...messages, msg]);
             setMessages((prevMessages: any) => [...prevMessages, msg]);
         }
-        socket.on("returnMessage", handleReturnMesage);
+        socket.on("return message", handleReturnMesage);
         return() => {
-            socket.off("returnMessage", handleReturnMesage);
+            socket.off("return message", handleReturnMesage);
         };
     }, []);
 
@@ -34,7 +25,7 @@ const SubmitMessage = () => {
         setIsLoading(true);
         //Validation
         //API Call
-        socket.emit("sendMessage", ({ to: contact?.contactId, from: user._id, content: input }), () => { 
+        socket.emit("send message", ({ to: contact?.contactId, from: user._id, content: input }), () => { 
             setInput("");
             setIsLoading(false);
         });
