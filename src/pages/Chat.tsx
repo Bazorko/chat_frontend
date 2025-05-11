@@ -32,14 +32,14 @@ const Chat = () => {
     return (
         <>
             <ConnectionState isConnected={ isConnected } />
-            <section className="flex flex-col h-screen">
+            <section className="flex flex-col h-screen pb-5">
                 <Nav />
                 {/*Message List - render when on larger viewports*/}
-                <section className="flex flex-row w-full grow">
-                    <section className="hidden lg:block px-10 w-3/12">
+                <section className="flex flex-row w-full grow gap-10">
+                    <section className="hidden lg:block w-3/12">
                         <MessageList />
                     </section>
-                    <section className="flex flex-col grow lg:px-10">
+                    <section className="flex flex-col grow">
                         {/*Chat Window*/}
                         <MessageWindow />
                     </section>
