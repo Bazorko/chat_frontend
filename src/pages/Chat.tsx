@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Nav from  "../components/nav/Nav.tsx";
-import MessageList from "../components/account/MessageList.tsx";
+import ContactList from "../components/account/ContactList.tsx";
 import MessageWindow from "../components/message/MessageWindow.tsx";
 import { socket } from "../socketstuff/socket.ts";
 import ConnectionState from "../socketstuff/ConnectState.tsx";
@@ -37,7 +37,7 @@ const Chat = () => {
                 {/*Message List - render when on larger viewports*/}
                 <section className="flex flex-row w-full grow gap-10">
                     <section className="hidden lg:block w-3/12">
-                        <MessageList />
+                        <ContactList />
                     </section>
                     <section className="flex flex-col grow">
                         {/*Chat Window*/}

@@ -1,10 +1,12 @@
 import { useAuth } from "../../../hooks/useAuth";
 import { useData } from "../../../hooks/useData";
+import { disconnect } from "../../../socketstuff/ConnectionManager";
 
 const AccountList = () => {
     const { logout } = useAuth();
     const { user } = useData();
     const handleLogout = () => {
+        disconnect();
         localStorage.removeItem("user");
         logout();
     }

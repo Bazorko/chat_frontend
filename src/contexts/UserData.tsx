@@ -1,5 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 
+interface AddContactResponse {
+    message: string
+}
+
 interface UserData{
     _id?: string,
     username?: string,
@@ -31,7 +35,7 @@ interface UserDataContextObject{
     setLoading: (isLoading: boolean) => void,
     setMessages: any,
     downloadMessages: (userId: string | undefined, contactId: string | undefined, contactUsername: string) => void,
-    addContact: (newContact: string) => void,
+    addContact: (newContact: string) => Promise<AddContactResponse>,
     deleteContact: (userId: string | undefined, contactId: string) => void,
     updateUserDataInLocalStorage: (json: UserData) => void,
     setUser: (user: UserData) => any,
@@ -61,9 +65,9 @@ export const DataProvider = (props: UserDataContextProps) => {
     },[]);
 
     //Updates user data in local storage, and in context.
-    const updateUserDataInLocalStorage = async (json: any) => {
-        await localStorage.setItem("user", JSON.stringify(json));
-        setUser({ ...json });
+    const updateUserDataInLocalStorage = async (data: any) => {
+        await localStorage.setItem("user", JSON.stringify(data));
+        setUser({ ...data });
     }
 
     //On account creation, send user data to db.
@@ -103,7 +107,7 @@ export const DataProvider = (props: UserDataContextProps) => {
     //API
 
     //Add contact
-    const addContact = async (newContact: string) => {
+    const addContact = async (newContact: string): Promise<AddContactResponse> => {
         const url = "http://localhost:3000/api/contacts";
         const options: RequestInit = {
             method: "POST",
@@ -113,8 +117,20 @@ export const DataProvider = (props: UserDataContextProps) => {
             },
             body: JSON.stringify({ username: user.username, contact: newContact })
         };
-        const response = await fetch(url, options);
-        return response;
+        try {
+            const response = await fetch(url, options);
+            const json = await response.json();
+            if(response.ok){
+                updateUserDataInLocalStorage(json.data);
+                return { message: json.message }
+            } else {
+                updateUserDataInLocalStorage(user);
+                return { message: json.message }
+            }
+        } catch(error) {
+            updateUserDataInLocalStorage(user);
+            return { message: "An error occured adding this user."}
+        }
     }
 
     //Delete Contact

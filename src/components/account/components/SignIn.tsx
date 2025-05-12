@@ -2,7 +2,7 @@ import { useState, FormEvent } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import { useData } from "../../../hooks/useData";
 import { Navigate } from "react-router-dom";
-import AccountError from "./AccountError";
+import AccountError from "./ErrorMessage";
 import Modal from "../../../utils/ui-containers/Modal";
 import { FirebaseError } from "firebase/app";
 

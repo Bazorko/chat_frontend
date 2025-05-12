@@ -2,12 +2,17 @@ import { FormEvent, useState } from "react";
 import { useData } from "../../hooks/useData";
 import Portal from "../../utils/ui-containers/Portal";
 import Modal from "../../utils/ui-containers/Modal";
-import AccountError from "./components/AccountError";
 import { socket } from "../../socketstuff/socket";
 import { connect, disconnect } from "../../socketstuff/ConnectionManager";
+import RemoveUser from "./components/RemoveUser";
+import ErrorMessage from "./components/ErrorMessage";
 
-const MessageList = () => {
-    const { user, downloadMessages, addContact, deleteContact, updateUserDataInLocalStorage } = useData();
+interface ContainerListProps{
+    closeModalContainer: () => void
+}
+
+const ContactList = ({ closeModalContainer }: ContainerListProps) => {
+    const { user, downloadMessages, addContact, deleteContact } = useData();
 
     const [ errorMessage, setErrorMessage ] = useState("");
     const [ isPortalOpen, setIsPortalOpen ] = useState(false);
@@ -29,26 +34,29 @@ const MessageList = () => {
     //Search for contact
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        const response: any = await addContact(contact);
-        const json = await response.json();
-        if(!response.ok) setErrorMessage(json.message);
-        updateUserDataInLocalStorage(json.data);
+        const response = await addContact(contact);
+        setErrorMessage(response.message);
         setContact("");
     }
 
     const handleClick = (contactId: string, contactUsername: string) => {
         downloadMessages(user._id, contactId, contactUsername);
-        if(socket.connected) disconnect();
-        connect();
+        if(socket.connected) {
+            disconnect();
+        }
+        connect(); 
         const arrayOfIds = [user._id, contactId].sort();
         const roomName = arrayOfIds[0]! + arrayOfIds[1]!;
         socket.emit("join room", roomName);
+        if(window.innerWidth <= 1023){
+            closeModalContainer();
+        }
     }
     return (
         <>
             <section className="self-center">
                 <p className="text-white text-center text-2xl p-10 lg:p-5">Inbox</p>
-                { errorMessage && <AccountError message={ errorMessage }/> }
+                { errorMessage && <ErrorMessage message={ errorMessage }/> }
                 <form onSubmit={ handleSubmit } className="grid gap-2">
                     <input type="text" className="rounded-lg pl-2 py-1" value={ contact } onChange={ (event) => {
                         setContact(event.target.value);
@@ -70,24 +78,7 @@ const MessageList = () => {
             { isPortalOpen && 
                 <Portal closePortal={ closePortal }>
                     <Modal>
-                        <>
-                            <section className="flex flex-col max-h-min items-center w-full">
-                                <p onClick={ () => closePortal() } className="text-xl place-self-start cursor-pointer text-white">&times;</p>
-                                <section className="w-10/12 max-h-min flex flex-col p-5 overflow-auto text-center">
-                                    <p className="text-white text-lg py-2.5">Remove {userToRemove} from your contacts?</p>
-                                    { errorMessage && <AccountError message={errorMessage}/> }
-                                    <div className="flex justify-center w-full gap-2.5 py-2.5">
-                                        <button onClick={ () => { 
-                                            deleteContact(user._id, userToRemoveId);
-                                            setUserToRemove("");
-                                            setUserToRemoveId("");
-                                            closePortal();
-                                        } } className="bg-red-500 border-red-500 border-2 px-5 py-2 rounded-lg text-white">Yes</button>
-                                        <button onClick={ () => closePortal() } className="text-neutral-900 bg-neutral-300 border-2 px-5 py-2 border-neutral-300 rounded-lg">No</button>
-                                    </div>
-                                </section>
-                            </section>
-                        </>
+                        <RemoveUser userToRemove={userToRemove} userToRemoveId={userToRemoveId} closePortal={closePortal} deleteContact={deleteContact} setUserToRemove={setUserToRemove} setUserToRemoveId={setUserToRemoveId}/>
                     </Modal>
                 </Portal> 
             }
@@ -95,4 +86,4 @@ const MessageList = () => {
     )
 }
 
-export default MessageList;
+export default ContactList;

@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 import { useData } from "../../../hooks/useData";
 import Modal from "../../../utils/ui-containers/Modal";
-import AccountError from "./AccountError";
+import AccountError from "./ErrorMessage";
 import { FirebaseError } from "firebase/app";
 
 interface CreateAccountComponentInterface{

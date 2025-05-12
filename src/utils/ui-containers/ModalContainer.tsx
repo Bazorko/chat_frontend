@@ -1,5 +1,5 @@
 import AccountList from "../../components/account/components/AccountList";
-import MessageList from "../../components/account/MessageList";
+import ContactList from "../../components/account/ContactList";
 
 interface ModalContainerProps{
     modalContainer: (bool: boolean) => void
@@ -7,12 +7,15 @@ interface ModalContainerProps{
 }
 
 const ModalContainer = ({ modalContainer, menuOrAccount }: ModalContainerProps) => {
+    const closeModalContainer = () => {
+        modalContainer(false)
+    }
     return (
         <aside className={`${menuOrAccount === "menu" && "animate-fadeInLeftToRight"} ${menuOrAccount === "account" && "animate-fadeInRightToLeft"} absolute h-screen w-screen bg-dark_theme flex flex-col p-5`}>
             <section>
-                <button className="text-white text-4xl" onClick={() => modalContainer(false)}>&times;</button>
+                <button className="text-white text-4xl" onClick={closeModalContainer}>&times;</button>
             </section>
-            {menuOrAccount === "menu" && <MessageList />}
+            {menuOrAccount === "menu" && <ContactList closeModalContainer={closeModalContainer}/>}
             {menuOrAccount === "account" && <AccountList />}
         </aside>
     )
