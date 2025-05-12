@@ -8,7 +8,7 @@ import RemoveUser from "./components/RemoveUser";
 import ErrorMessage from "./components/ErrorMessage";
 
 interface ContainerListProps{
-    closeModalContainer: () => void
+    closeModalContainer?: () => void
 }
 
 const ContactList = ({ closeModalContainer }: ContainerListProps) => {
@@ -49,7 +49,9 @@ const ContactList = ({ closeModalContainer }: ContainerListProps) => {
         const roomName = arrayOfIds[0]! + arrayOfIds[1]!;
         socket.emit("join room", roomName);
         if(window.innerWidth <= 1023){
-            closeModalContainer();
+            if(closeModalContainer){
+                closeModalContainer();
+            }
         }
     }
     return (
