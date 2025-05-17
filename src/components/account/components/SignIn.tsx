@@ -2,9 +2,14 @@ import { useState, FormEvent } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import { useData } from "../../../hooks/useData";
 import { Navigate } from "react-router-dom";
-import AccountError from "./ErrorMessage";
+import ErrorMessage from "./ErrorMessage";
 import Modal from "../../../utils/ui-containers/Modal";
 import { FirebaseError } from "firebase/app";
+
+interface ErrorData{
+    ok: boolean | undefined,
+    message: string
+}
 
 interface LoginComponentInterface{
     closePortal: () => void;
@@ -14,7 +19,7 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
 
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
-    const [ errorCode, setErrorCode ] = useState("");
+    const [ errorData, setErrorData ] = useState<ErrorData | undefined>(undefined);
 
     const { signInUser } = useAuth();
     const { retrieveUserDataFromDb } = useData();
@@ -27,7 +32,7 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
             await signInUser({ email, password });
             await retrieveUserDataFromDb(email);
         } catch(error) {
-            if(error instanceof FirebaseError) setErrorCode(error.code);
+            if(error instanceof FirebaseError) setErrorData({ ok: false, message: error.code } );
         } finally {
             return <Navigate to="/chat"/>
         }
@@ -41,7 +46,7 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
                 <form className="self-center w-full lg:w-7/12" onSubmit={handleSubmit} autoComplete="off">
                     <fieldset className="flex flex-col">
                         <fieldset>Personal Information</fieldset>
-                        { errorCode && <AccountError message={errorCode}/> }
+                        { errorData && <ErrorMessage data={errorData}/> }
                         <label htmlFor="username" className="text-white text-lg p-2">Email</label>
                         <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} id="username" className="p-3 rounded-lg" placeholder="Enter your email." required/>
 

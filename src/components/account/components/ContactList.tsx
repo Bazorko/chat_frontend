@@ -1,11 +1,16 @@
 import { FormEvent, useState } from "react";
-import { useData } from "../../hooks/useData";
-import Portal from "../../utils/ui-containers/Portal";
-import Modal from "../../utils/ui-containers/Modal";
-import { socket } from "../../socketstuff/socket";
-import { connect, disconnect } from "../../socketstuff/ConnectionManager";
-import RemoveUser from "./components/RemoveUser";
-import ErrorMessage from "./components/ErrorMessage";
+import { useData } from "../../../hooks/useData";
+import Portal from "../../../utils/ui-containers/Portal";
+import Modal from "../../../utils/ui-containers/Modal";
+import { socket } from "../../../socketstuff/socket";
+import { connect, disconnect } from "../../../socketstuff/ConnectionManager";
+import RemoveUser from "./RemoveUser";
+import ErrorMessage from "./ErrorMessage";
+
+interface ErrorData{
+    ok: boolean | undefined,
+    message: string
+}
 
 interface ContainerListProps{
     closeModalContainer?: () => void
@@ -14,7 +19,7 @@ interface ContainerListProps{
 const ContactList = ({ closeModalContainer }: ContainerListProps) => {
     const { user, downloadMessages, addContact, deleteContact } = useData();
 
-    const [ errorMessage, setErrorMessage ] = useState("");
+    const [ errorData, setErrorData ] = useState<ErrorData | undefined>(undefined);
     const [ isPortalOpen, setIsPortalOpen ] = useState(false);
     const [ contact, setContact ] = useState("");
     const [ userToRemove, setUserToRemove ] = useState("");
@@ -35,7 +40,7 @@ const ContactList = ({ closeModalContainer }: ContainerListProps) => {
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         const response = await addContact(contact);
-        setErrorMessage(response.message);
+        setErrorData({ ...response });
         setContact("");
     }
 
@@ -56,20 +61,20 @@ const ContactList = ({ closeModalContainer }: ContainerListProps) => {
     }
     return (
         <>
-            <section className="self-center">
-                <p className="text-white text-center text-2xl p-10 lg:p-5">Inbox</p>
-                { errorMessage && <ErrorMessage message={ errorMessage }/> }
+            <section className=" flex flex-col gap-3 self-center">
+                <p className="text-white text-center text-2xl">Inbox</p>
+                { errorData && <ErrorMessage data={ errorData }/> }
                 <form onSubmit={ handleSubmit } className="grid gap-2">
                     <input type="text" className="rounded-lg pl-2 py-1" value={ contact } onChange={ (event) => {
                         setContact(event.target.value);
-                        setErrorMessage("");
+                        setErrorData({ ok: undefined, message: "" });
                     } } placeholder="Enter a username"/>
                     <button className="text-neutral-900 bg-neutral-300 border-neutral-300 border-2 rounded-lg py-1">Search</button>
                 </form>
-                <ul className="text-center mt-8">
+                <ul className="flex flex-col gap-2 text-center mt-8">
                     { inbox?.length ? inbox?.map(contact => {
                         return(
-                            <li key={ contact._id } className="flex text-white text-center text-lg p-3 cursor-pointer">
+                            <li key={ contact._id } className="flex text-white text-center text-lg px-3 cursor-pointer">
                                 <p className="w-full" onClick={ () => handleClick(contact._id, contact.username) } >{ contact.username }</p>
                                 <p onClick={ () => openPortal(contact._id, contact.username) } className="text-white text-xl cursor-pointer">&times;</p>
                             </li>);

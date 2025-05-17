@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 
 interface AddContactResponse {
+    ok: boolean,
     message: string
 }
 
@@ -122,14 +123,14 @@ export const DataProvider = (props: UserDataContextProps) => {
             const json = await response.json();
             if(response.ok){
                 updateUserDataInLocalStorage(json.data);
-                return { message: json.message }
+                return { ok: response.ok, message: json.message }
             } else {
                 updateUserDataInLocalStorage(user);
-                return { message: json.message }
+                return { ok: response.ok, message: json.message }
             }
         } catch(error) {
             updateUserDataInLocalStorage(user);
-            return { message: "An error occured adding this user."}
+            return { ok: false, message: "An error occured adding this user."}
         }
     }
 

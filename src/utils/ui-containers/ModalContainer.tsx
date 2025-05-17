@@ -1,5 +1,5 @@
 import AccountList from "../../components/account/components/AccountList";
-import ContactList from "../../components/account/ContactList";
+import ContactList from "../../components/account/components/ContactList";
 
 interface ModalContainerProps{
     modalContainer: (bool: boolean) => void

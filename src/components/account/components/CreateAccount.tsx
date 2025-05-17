@@ -3,8 +3,13 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 import { useData } from "../../../hooks/useData";
 import Modal from "../../../utils/ui-containers/Modal";
-import AccountError from "./ErrorMessage";
+import ErrorMessage from "./ErrorMessage";
 import { FirebaseError } from "firebase/app";
+
+interface ErrorData{
+    ok: boolean | undefined,
+    message: string
+}
 
 interface CreateAccountComponentInterface{
     closePortal: () => void;
@@ -18,13 +23,13 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
     const [ verifyPassword, setVerifyPassword ] = useState("");
-    const [ errorCode, setErrorCode ] = useState("");
+    const [ errorData, setErrorData ] = useState<ErrorData | undefined>(undefined);
 
     const { createAccount } = useAuth();
     const { sendUserDataToDb } = useData();
 
     useEffect(() => {
-        setErrorCode("");
+        setErrorData(undefined);
     }, [username, email, password, verifyPassword]);
 
     const handleSubmit = async (event: FormEvent) => {
@@ -34,19 +39,21 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
             try{
                 await createAccount({ email, password });
             } catch(error){
-                if(error instanceof FirebaseError) setErrorCode(error.code);
+                console.log(error);
+                if(error instanceof FirebaseError) setErrorData({ ok: false, message: error.code });
                 return;
             }
             try{
                 await sendUserDataToDb({ username, email });
-            } catch(error){
+            } catch(error: any){
                 console.log(error);
                 //delete account from firebase auth
+                setErrorData({ ok: false, message: error.code });
                 return;
             }
             
-        } catch(error) {
-            if(error instanceof FirebaseError) setErrorCode(error.code);
+        } catch(error: any) {
+            setErrorData({ ok: false, message: error.code });
         }
         return <Navigate to="/chat"/>
     }
@@ -56,7 +63,7 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
             <section className="w-full max-h-min flex flex-col overflow-auto">
                 <button onClick={closePortal} className="text-white text-2xl self-start hover:text-gray-400">&times;</button>
                 <h3 className="text-white place-self-center text-3xl pt-8">Create Account</h3>
-                { errorCode && <AccountError message={errorCode}/> }
+                { errorData && <ErrorMessage data={errorData}/> }
                 <form className="self-center w-full lg:w-8/12" onSubmit={handleSubmit} autoComplete="off">
                     <fieldset className="flex flex-col">
                         <section className="flex flex-col lg:flex-row gap-0 lg:gap-5">
