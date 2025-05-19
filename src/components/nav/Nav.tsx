@@ -11,7 +11,7 @@ const Nav = () => {
     if(isModalContainerOpen) return <ModalContainer modalContainer={modalContainer} menuOrAccount={menuOrAccount}/>
 
     return (
-        <nav className="flex justify-between lg:place-content-end w-full py-3">
+        <nav className="flex justify-between lg:place-content-end w-full py-5 pr-5">
             <span className="lg:hidden" onClick={() => {
                 modalContainer(true);
                 setMenuOrAccount("menu");
