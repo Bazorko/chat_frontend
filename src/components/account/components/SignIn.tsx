@@ -38,6 +38,11 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
         }
     }
 
+    const handleInputChange = (input: string, updateState: (input: string) => void) => {
+        updateState(input);
+        setErrorData(undefined);
+    }
+
     return(
         <Modal>
             <section className="w-full max-h-min flex flex-col overflow-auto">
@@ -48,10 +53,10 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
                         <fieldset>Personal Information</fieldset>
                         { errorData && <ErrorMessage data={errorData}/> }
                         <label htmlFor="username" className="text-white text-lg p-2">Email</label>
-                        <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} id="username" className="p-3 rounded-lg" placeholder="Enter your email." required/>
+                        <input type="email" value={email} onChange={(event) => handleInputChange(event.target.value, setEmail)} id="username" className="p-3 rounded-lg" placeholder="Enter your email." required/>
 
                         <label htmlFor="password" className="text-white text-lg p-2 ">Password</label>
-                        <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} id="password" className="p-3 rounded-lg" placeholder="Enter your password." required/>
+                        <input type="password" value={password} onChange={(event) => handleInputChange(event.target.value, setPassword)} id="password" className="p-3 rounded-lg" placeholder="Enter your password." required/>
                     </fieldset>
                     <section>
                         <p className="text-white text-center py-3"><span className="cursor-pointer hover:underline">Forgot Password?</span></p>

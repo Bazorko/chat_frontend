@@ -42,6 +42,11 @@ const ContactList = ({ closeModalContainer }: ContainerListProps) => {
         const response = await addContact(contact);
         setErrorData({ ...response });
         setContact("");
+        if(response.ok){
+            setTimeout(() => {
+                setErrorData(undefined);
+            }, 5000);
+        }
     }
 
     const handleClick = (contactId: string, contactUsername: string) => {
@@ -67,7 +72,7 @@ const ContactList = ({ closeModalContainer }: ContainerListProps) => {
                 <form onSubmit={ handleSubmit } className="grid gap-2">
                     <input type="text" className="rounded-lg pl-2 py-1" value={ contact } onChange={ (event) => {
                         setContact(event.target.value);
-                        setErrorData({ ok: undefined, message: "" });
+                        setErrorData(undefined);
                     } } placeholder="Enter a username"/>
                     <button className="text-neutral-900 bg-neutral-300 border-neutral-300 border-2 rounded-lg py-1">Search</button>
                 </form>

@@ -58,6 +58,11 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
         return <Navigate to="/chat"/>
     }
 
+    const handleInputChange = (input: string, updateState: (input: string) => void) => {
+        updateState(input);
+        setErrorData(undefined);
+    }
+
     return(
         <Modal>
             <section className="w-full max-h-min flex flex-col overflow-auto">
@@ -69,19 +74,19 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
                         <section className="flex flex-col lg:flex-row gap-0 lg:gap-5">
                             <section className="flex flex-col w-full">
                                 <label htmlFor="username" className="text-white text-lg p-2">Username</label>
-                                <input type="text" value={username} onChange={(event) => setUsername(event.target.value)} id="username" className="p-3 rounded-lg w-full" placeholder="Enter your username" required/>
+                                <input type="text" value={username} onChange={(event) => handleInputChange(event.target.value, setUsername)} id="username" className="p-3 rounded-lg w-full" placeholder="Enter your username" required/>
                             </section>
                             <section className="flex flex-col w-full">
                                 <label htmlFor="email" className="text-white text-lg p-2">Email</label>
-                                <input type="text" value={email} onChange={(event) => setEmail(event.target.value)} id="email" className="p-3 rounded-lg w-full" placeholder="Enter your email address" required/>
+                                <input type="text" value={email} onChange={(event) => handleInputChange(event.target.value, setEmail)} id="email" className="p-3 rounded-lg w-full" placeholder="Enter your email address" required/>
                             </section>
                         </section>
 
                         <label htmlFor="password" className="text-white text-lg p-2">Password</label>
-                        <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} id="password" className="p-3 rounded-lg" placeholder="Enter your password" required/>
+                        <input type="password" value={password} onChange={(event) => handleInputChange(event.target.value, setPassword)} id="password" className="p-3 rounded-lg" placeholder="Enter your password" required/>
 
                         <label htmlFor="confirmpassword" className="text-white text-lg p-2">Confirm Password</label>
-                        <input type="password" value={verifyPassword} onChange={(event) => setVerifyPassword(event.target.value)} id="confirmpassword" className="p-3 rounded-lg" placeholder="Confirm your password" required/>
+                        <input type="password" value={verifyPassword} onChange={(event) => handleInputChange(event.target.value, setVerifyPassword)} id="confirmpassword" className="p-3 rounded-lg" placeholder="Confirm your password" required/>
                     </fieldset>
                     <section>
                         <p className="text-white text-center py-3"><span className="cursor-pointer hover:underline animate-pulse">uwu</span></p>
