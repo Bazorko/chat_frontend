@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 interface ErrorData {
     ok: boolean | undefined,
     message: string

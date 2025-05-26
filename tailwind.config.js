@@ -21,6 +21,7 @@ export default {
         fadeInLeftToRight: "fadeInFromLeft 400ms linear forwards",
         fadeInRightToLeft: "fadeInFromRight 400ms ease-out forwards"
       },
+      borderColor: ['invalid'],
       keyframes: {
         fadeInFromLeft: {
           "0%": { width: "0%", left: "0" },

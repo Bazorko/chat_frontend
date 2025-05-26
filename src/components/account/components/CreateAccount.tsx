@@ -35,6 +35,13 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         //Validation
+        if(username.length <= 3){
+            setErrorData({ ok: false, message: "Username must be longer than 3 characters." });
+            return;
+        } else if(password !== verifyPassword){
+            setErrorData({ ok: false, message: "Your passwords do not match." });
+            return;
+        }
         try {
             try{
                 await createAccount({ email, password });
@@ -83,10 +90,10 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
                         </section>
 
                         <label htmlFor="password" className="text-white text-lg p-2">Password</label>
-                        <input type="password" value={password} onChange={(event) => handleInputChange(event.target.value, setPassword)} id="password" className="p-3 rounded-lg" placeholder="Enter your password" required/>
+                        <input type="password" value={password} onChange={(event) => handleInputChange(event.target.value, setPassword)} id="password" className="p-3 rounded-lg" placeholder="Enter your password" minLength={8} required/>
 
                         <label htmlFor="confirmpassword" className="text-white text-lg p-2">Confirm Password</label>
-                        <input type="password" value={verifyPassword} onChange={(event) => handleInputChange(event.target.value, setVerifyPassword)} id="confirmpassword" className="p-3 rounded-lg" placeholder="Confirm your password" required/>
+                        <input type="password" value={verifyPassword} onChange={(event) => handleInputChange(event.target.value, setVerifyPassword)} id="confirmpassword" className="p-3 rounded-lg" placeholder="Confirm your password" minLength={8} required/>
                     </fieldset>
                     <section>
                         <p className="text-white text-center py-3"><span className="cursor-pointer hover:underline animate-pulse">uwu</span></p>
