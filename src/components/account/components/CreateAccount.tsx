@@ -35,8 +35,12 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         //Validation
-        if(username.length <= 3){
-            setErrorData({ ok: false, message: "Username must be longer than 3 characters." });
+        if(!username.match(/^[a-zA-Z0-9]+$/)){
+            if(username.length <= 3){
+                setErrorData({ ok: false, message: "Username must be longer than 3 characters." });
+                return;
+            }
+            setErrorData({ ok: false, message: "Your username may not have special characters." });
             return;
         } else if(password !== verifyPassword){
             setErrorData({ ok: false, message: "Your passwords do not match." });
