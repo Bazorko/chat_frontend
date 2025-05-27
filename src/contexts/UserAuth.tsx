@@ -1,11 +1,12 @@
 import { createContext, useState } from "react";
 import { auth } from "../config/firebaseAuth";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
 
 interface UserAuthContextObject {
     isAuth: boolean
     signInUser: ({}: UserObject) => void
     createAccount: ({}: UserObject) => void
+    isUsersEmailVerified: () => Promise<boolean>
     logout: () => void
 }
 
@@ -24,6 +25,8 @@ export const AuthProvider = (props: UserAuthContextProps) => {
     const [user, setUser] = useState({});
     const [isAuth, setIsAuth] = useState(false);
 
+    console.log(auth.currentUser?.emailVerified);
+
     //Fetch user
     onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -36,7 +39,7 @@ export const AuthProvider = (props: UserAuthContextProps) => {
 
     //Sign in user
     const signInUser = async ({ email, password }: UserObject) => {
-            await signInWithEmailAndPassword(auth, email, password);
+        await signInWithEmailAndPassword(auth, email, password);
     }
 
     //Create account
@@ -44,18 +47,27 @@ export const AuthProvider = (props: UserAuthContextProps) => {
         await createUserWithEmailAndPassword(auth, email, password);
     }
 
+    const isUsersEmailVerified = async () => {
+        if(auth.currentUser?.emailVerified) {
+            console.log(auth.currentUser?.emailVerified);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     //Logout user
     const logout = async () => {
         try {
           await signOut(auth);
-          localStorage.removeItem("use");
+          localStorage.removeItem("user");
         } catch (err) {
           console.error(err);
         }
     };
     
     return(
-        <AuthContext.Provider value={{ isAuth, signInUser, createAccount, logout }}>
+        <AuthContext.Provider value={{ isAuth, signInUser, createAccount, isUsersEmailVerified, logout }}>
             {props.children }
         </AuthContext.Provider>
     );
