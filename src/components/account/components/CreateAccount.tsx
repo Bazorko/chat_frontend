@@ -78,10 +78,8 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
         <Modal>
             <section className="w-full max-h-min flex flex-col overflow-auto">
                 <button onClick={closePortal} className="text-white text-2xl self-start hover:text-gray-400">&times;</button>
-                <h3 className="text-white place-self-center text-3xl pt-8">Create Account</h3>
-                <div className="m-auto">
-                    { errorData && <ErrorMessage data={errorData}/> }
-                </div>
+                <h3 className="text-white place-self-center text-3xl py-6">Create Account</h3>
+                { errorData && <ErrorMessage data={errorData}/> }
                 <form className="self-center w-full lg:w-8/12" onSubmit={handleSubmit} autoComplete="off">
                     <fieldset className="flex flex-col">
                         <section className="flex flex-col lg:flex-row gap-0 lg:gap-5">

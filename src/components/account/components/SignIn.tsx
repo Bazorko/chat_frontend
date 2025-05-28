@@ -46,13 +46,10 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
         <Modal>
             <section className="w-full max-h-min flex flex-col overflow-auto">
                 <button onClick={ closePortal } className="text-white text-2xl self-start hover:text-gray-400">&times;</button>
-                <h3 className="text-white place-self-center text-3xl pt-8">Sign In</h3>
+                <h3 className="text-white place-self-center text-3xl py-6">Sign In</h3>
                 <form className="self-center w-full lg:w-7/12" onSubmit={ handleSubmit } autoComplete="off">
                     <fieldset className="flex flex-col">
-                        <fieldset>Personal Information</fieldset>
-                        <div className="m-auto">
-                            { errorData && <ErrorMessage data={errorData}/> }
-                        </div>
+                        { errorData && <ErrorMessage data={errorData}/> }
                         <label htmlFor="username" className="text-white text-lg p-2">Email</label>
                         <input type="email" value={ email } onChange={ (event) => handleInputChange(event.target.value, setEmail) } id="username" className="invalid:border-pink-500 p-3 rounded-lg" placeholder="Enter your email." required/>
 
