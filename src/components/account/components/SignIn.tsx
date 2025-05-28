@@ -30,8 +30,8 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
         try {
             await signInUser({ email, password });
             await retrieveUserDataFromDb(email);
-        } catch(error) {
-            if(error instanceof FirebaseError) setErrorData({ ok: false, message: error.code } );
+        } catch(error: any) {
+            setErrorData({ ok: false, message: error.code } );
         } finally {
             return <Navigate to="/chat"/>
         }
@@ -50,7 +50,9 @@ const SignIn = ({ closePortal }: LoginComponentInterface) => {
                 <form className="self-center w-full lg:w-7/12" onSubmit={ handleSubmit } autoComplete="off">
                     <fieldset className="flex flex-col">
                         <fieldset>Personal Information</fieldset>
-                        { errorData && <ErrorMessage data={ errorData }/> }
+                        <div className="m-auto">
+                            { errorData && <ErrorMessage data={errorData}/> }
+                        </div>
                         <label htmlFor="username" className="text-white text-lg p-2">Email</label>
                         <input type="email" value={ email } onChange={ (event) => handleInputChange(event.target.value, setEmail) } id="username" className="invalid:border-pink-500 p-3 rounded-lg" placeholder="Enter your email." required/>
 

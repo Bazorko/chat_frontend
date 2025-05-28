@@ -1,8 +1,9 @@
 import { useData } from "../../../hooks/useData";
-import handleLogout from "../../../utils/auth/Logout";
+import { useHandleLogout } from "../../../hooks/useHandleLogout";
 
 const AccountList = () => {
     const { user } = useData();
+    const handleLogout = useHandleLogout();
     return (
         <section className="self-center">
             <p className="text-white text-center text-2xl p-5">{ user.username }'s Account</p>

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ErrorMessage from "../../components/account/components/ErrorMessage";
-import handleLogout from "./Logout";
+import { useHandleLogout } from "../../hooks/useHandleLogout";
 import { getAuth, sendEmailVerification } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 interface ErrorData{
     ok: boolean | undefined,
@@ -14,6 +15,16 @@ const VerifyEmail = () => {
 
     const [ errorData, setErrorData ] = useState<ErrorData | undefined>(undefined);
 
+    const handleLogout = useHandleLogout();
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(user?.emailVerified){
+            navigate("/chat");
+        }
+    }, [auth.currentUser?.emailVerified]);
+
     const handleResendEmailVerification = () => {
         if(user) {
             sendEmailVerification(auth.currentUser);
@@ -23,11 +34,15 @@ const VerifyEmail = () => {
         }
     }
     return(
-        <div className="h-screen flex flex-col justify-center items-center">
-            <p className="text-white pb-2">Please verify your email before continuing.</p>
-            { errorData && <ErrorMessage data={ errorData }/> }
-            <button className="text-white bg-primary_blue border-primary_blue rounded-lg p-3 hover:bg-primary_blue_darker" onClick={handleResendEmailVerification}>Resend Email</button>
-            <p className="text-white pt-2 cursor-pointer hover:underline" onClick={() => handleLogout()}> Go back?</p>
+        <div className="h-screen flex flex-col gap-4 justify-center items-center">
+            <p className="text-white">Please verify your email before continuing.</p>
+            <div className="mx-auto">
+                { errorData && <ErrorMessage data={ errorData }/> }
+            </div>
+            <div className="flex flex-col gap-4">
+                <button className="text-white bg-primary_blue border-primary_blue rounded-lg w-full p-3 hover:bg-primary_blue_darker" onClick={handleResendEmailVerification}>Resend Email</button>
+                <button className="text-neutral-900 bg-neutral-300 border-2 border-neutral-300 rounded-lg w-full p-2 hover:bg-neutral-600 hover:border-neutral-600" onClick={handleLogout}>Go Back?</button>
+            </div>
         </div>
     );
 }

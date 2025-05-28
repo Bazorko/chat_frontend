@@ -5,6 +5,8 @@ import { useData } from "../../../hooks/useData";
 import Modal from "../../../utils/ui-containers/Modal";
 import ErrorMessage from "./ErrorMessage";
 import { FirebaseError } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { sendEmailVerification } from "firebase/auth";
 
 interface ErrorData{
     ok: boolean | undefined,
@@ -25,6 +27,9 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
     const [ verifyPassword, setVerifyPassword ] = useState("");
     const [ errorData, setErrorData ] = useState<ErrorData | undefined>(undefined);
 
+    const auth = getAuth();
+    const user = auth.currentUser;
+
     const { createAccount } = useAuth();
     const { sendUserDataToDb } = useData();
 
@@ -36,8 +41,8 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
         event.preventDefault();
         //Validation
         if(!username.match(/^[a-zA-Z0-9]+$/)){
-            if(username.length <= 3){
-                setErrorData({ ok: false, message: "Username must be longer than 3 characters." });
+            if(username.length <= 2){
+                setErrorData({ ok: false, message: "Username must be longer than 2 characters." });
                 return;
             }
             setErrorData({ ok: false, message: "Your username may not have special characters." });
@@ -47,24 +52,19 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
             return;
         }
         try {
-            try{
-                await createAccount({ email, password });
-            } catch(error){
-                console.log(error);
-                if(error instanceof FirebaseError) setErrorData({ ok: false, message: error.code });
-                return;
+            await createAccount({ email, password });
+            await sendUserDataToDb({ username, email });
+            if(auth.currentUser){
+                sendEmailVerification(auth.currentUser);
             }
-            try{
-                await sendUserDataToDb({ username, email });
-            } catch(error: any){
-                console.log(error);
-                //delete account from firebase auth
+        } catch(error: any){
+            console.log(error);
+            if(error instanceof FirebaseError){ 
                 setErrorData({ ok: false, message: error.code });
-                return;
+            } else {
+                setErrorData({ ok: false, message: error.code });
             }
-            
-        } catch(error: any) {
-            setErrorData({ ok: false, message: error.code });
+            return;
         }
         return <Navigate to="/chat"/>
     }
@@ -79,7 +79,9 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
             <section className="w-full max-h-min flex flex-col overflow-auto">
                 <button onClick={closePortal} className="text-white text-2xl self-start hover:text-gray-400">&times;</button>
                 <h3 className="text-white place-self-center text-3xl pt-8">Create Account</h3>
-                { errorData && <ErrorMessage data={errorData}/> }
+                <div className="m-auto">
+                    { errorData && <ErrorMessage data={errorData}/> }
+                </div>
                 <form className="self-center w-full lg:w-8/12" onSubmit={handleSubmit} autoComplete="off">
                     <fieldset className="flex flex-col">
                         <section className="flex flex-col lg:flex-row gap-0 lg:gap-5">
