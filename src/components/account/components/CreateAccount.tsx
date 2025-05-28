@@ -58,7 +58,7 @@ const CreateAccount = ({ closePortal }: CreateAccountComponentInterface) => {
                 sendEmailVerification(auth.currentUser);
             }
         } catch(error: any){
-            console.log(error);
+            console.error(error);
             if(error instanceof FirebaseError){ 
                 setErrorData({ ok: false, message: error.code });
             } else {

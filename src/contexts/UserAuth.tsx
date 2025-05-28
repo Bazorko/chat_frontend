@@ -25,8 +25,6 @@ export const AuthProvider = (props: UserAuthContextProps) => {
     const [user, setUser] = useState({});
     const [isAuth, setIsAuth] = useState(false);
 
-    console.log(auth.currentUser?.emailVerified);
-
     //Fetch user
     onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -49,7 +47,6 @@ export const AuthProvider = (props: UserAuthContextProps) => {
 
     const isUsersEmailVerified = async () => {
         if(auth.currentUser?.emailVerified) {
-            console.log(auth.currentUser?.emailVerified);
             return true;
         } else {
             return false;
@@ -61,8 +58,8 @@ export const AuthProvider = (props: UserAuthContextProps) => {
         try {
           await signOut(auth);
           localStorage.removeItem("user");
-        } catch (err) {
-          console.error(err);
+        } catch (error) {
+          console.error(error);
         }
     };
     
