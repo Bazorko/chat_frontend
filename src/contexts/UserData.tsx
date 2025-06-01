@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { getAuth } from "firebase/auth";
 
 interface AddContactResponse {
     ok: boolean,
@@ -114,6 +115,7 @@ export const DataProvider = (props: UserDataContextProps) => {
             method: "POST",
             credentials: "include",
             headers: {
+                "Authorization": `Bearer ${await getAuth().currentUser?.getIdToken()}`,
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({ username: user.username, contact: newContact })
@@ -140,6 +142,9 @@ export const DataProvider = (props: UserDataContextProps) => {
         const options: RequestInit = {
             method: "DELETE",
             credentials: "include",
+            headers: {
+                "Authorization": `Bearer ${await getAuth().currentUser?.getIdToken()}`,
+            }
         }
         const response = await fetch(url, options);
         const json = await response.json();
@@ -156,13 +161,15 @@ export const DataProvider = (props: UserDataContextProps) => {
         const options: RequestInit = {
             method: "GET",
             credentials: "include",
+            headers: {
+                "Authorization": `Bearer ${await getAuth().currentUser?.getIdToken()}`,
+            }
         }
         const response = await fetch(url, options);
         const json = await response.json();
         setMessages([...json.data.messages]);
         setContact({ contactId: contactId, username: contactUsername });
         setLoading(false);
-        console.log(messages);
     }
 
     return(
