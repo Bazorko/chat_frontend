@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <p className='text-white text-center'>&copy; Chat Corp.</p>
+    <p className='text-white text-center'>&copy; Chatterbox</p>
   )
 }
 
